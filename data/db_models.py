@@ -21,7 +21,9 @@ class SongList(Base):
     __tablename__ = 'song_list'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(50))
+    name: Mapped[str] = mapped_column(String(80))
+    creator: Mapped[int] = mapped_column(ForeignKey('user.id'))
+    songs: Mapped[list] = mapped_column(Text)
 
 
 class User(Base):
@@ -40,7 +42,7 @@ class Bracket(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str]
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
-    song_list: Mapped[list] = mapped_column(Text)
+    song_list_id: Mapped[int] = mapped_column(ForeignKey('song_list.id'))
     pool_size: Mapped[int]
     bracket_status: Mapped[str]
     seed_list: Mapped[Optional[list]] = mapped_column(Text)
