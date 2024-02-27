@@ -1,5 +1,7 @@
 """
-Give the app some persistence with a SQLite DB, don't need async for now.
+Give the app some persistence with a DB, don't need async for now.
+
+Heavily noted to help beginners get some insight
 """
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -9,13 +11,16 @@ from contextlib import contextmanager
 # Setup engine to create connection to DB, connect_args only needed for sqlite dbs otherwise remove it
 engine = create_engine("sqlite+pysqlite:///./bracket_voter_simple.db", connect_args={"check_same_thread": False})
 
-# Since all models are in db_models and it has the Base model, don't need to import them before this step
+# Create tables in the DB - all classes(tables) defined in db_models including Base, so only importing Base
 Base.metadata.create_all(engine)
 
-# Use sessionmaker to be a db connection session factory for serving sessions
+# Factory for sessions - sessionmaker uses engine to make a Session object
+# Session connects to engine(db), creates transaction on connection, holds all objects for transaction
 Session = sessionmaker(bind=engine)
 
-# Function that will be called to get a session connection for DB and ensure it gets closed/cleaned up
+
+# Get a session for each request (that needs one) to transact with DB
+# Use it for life of request, and then close out the session (released)
 @contextmanager
 def get_db_session():
     session = Session()
