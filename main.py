@@ -1,6 +1,6 @@
 """
 A simple, basic FastAPI web application for creating bracket's for best item tournaments
-First iteration will only be for songs.
+First iteration will only be for songs only.
 
 Many comments to explain what code is doing, this web app is for beginners to reference
 """
@@ -14,9 +14,6 @@ app = FastAPI(docs_url=None, redoc_url=None)
 
 # Include the CSS/JS in static by mounting to the app
 app.mount('/static', StaticFiles(directory='static'), name='static')
-
-# Setup global template object for re-use by routes, alternatively could put it in a dependency.py file
-templates = Jinja2Templates(directory='templates')
 
 # Include the routers for the routes, make sure to import the files
 app.include_router(index.router)
