@@ -22,8 +22,3 @@ templates = Jinja2Templates(directory='templates')
 app.include_router(index.router)
 app.include_router(account.router)
 app.include_router(bracket.router)
-
-
-
-
-

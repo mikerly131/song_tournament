@@ -9,13 +9,11 @@ from data.db_models import Base
 from contextlib import contextmanager
 
 # Setup engine to create connection to DB, connect_args only needed for sqlite dbs otherwise remove it
-engine = create_engine("sqlite+pysqlite:///./bracket_voter_simple.db", connect_args={"check_same_thread": False})
-
-# Create tables in the DB - all classes(tables) defined in db_models including Base, so only importing Base
-Base.metadata.create_all(engine)
-
+# Create tables in the DB from Base - all classes(tables) defined in db_models including Base, so only importing Base
 # Factory for sessions - sessionmaker uses engine to make a Session object
-# Session connects to engine(db), creates transaction on connection, holds all objects for transaction
+# A Session will connect to engine(db), create transaction on connection, holds all objects for transaction
+engine = create_engine("sqlite+pysqlite:///./bracket_voter_simple.db", connect_args={"check_same_thread": False})
+Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
 

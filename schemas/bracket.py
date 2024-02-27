@@ -1,31 +1,32 @@
-class Bracket:
-    last_id = 1
-
-    def __init__(self, song_list: list, user_id: int, name: str, pool_size: int):
-        self.id = Bracket.last_id
-        self.user_id = user_id
-        self.name = name
-        self.song_list = song_list
-        self.pool_size = pool_size
-        self.seed_list = []
-
-        Bracket.last_id += 1
+"""
+Pydantic classes for brackets, translation between routes and db
+"""
+from pydantic import BaseModel
+from typing import Optional, List, ForwardRef
 
 
-class RankedBracket:
-    last_id = 1
+class Bracket(BaseModel):
+    id: int
+    name: str
+    user_id: int
+    song_list_id: int
+    pool_size: int
+    ranking_type: str
+    bracket_status: str
+    seed_list: Optional[list]
 
-    def __init__(self, song_list: list, user: int, pool_size: int):
-        self.id = Bracket.last_id
-        self.user_id = user
-        self.song_list = song_list
-        self.pool_size = pool_size
-        self.seed_list = []
-        self.first_32 = []
-        self.sweet_16 = []
-        self.elite_8 = []
-        self.final_4 = []
-        self.last_2 = []
-        self.champion = None
 
-        RankedBracket.last_id += 1
+# For relationships, commented out until I decide ot use them
+#
+# User = ForwardRef('User')
+# FilledBracket = ForwardRef('FilledBracket')
+#
+#
+# class BracketDetails(Bracket):
+#     user: Optional[User]
+#     filled_brackets: Optional[List[FilledBracket]] = []
+#
+#
+# from .account import User
+# from .filled_bracket import FilledBracket
+# BracketDetails.update_forward_refs()
