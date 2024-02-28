@@ -36,10 +36,10 @@
                 </div>
                 <div class="row h-75">
                     <div class="col-md-6 text-center">
-                       <a href="#" class="btn btn-primary btn-lg">Login</a>
+                       <a href="{{ url_for('login_get') }}" class="btn btn-primary btn-lg">Login</a>
                     </div>
                     <div class="col-md-6 text-center">
-                       <a href="#" class="btn btn-primary btn-lg">Register</a>
+                       <a href="{{ url_for('register_get') }}" class="btn btn-primary btn-lg">Register</a>
                     </div>
                 </div>
                 {% endif %}

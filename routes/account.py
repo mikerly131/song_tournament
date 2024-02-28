@@ -4,7 +4,7 @@ Has routes available when viewing the account: my song lists, my brackets, my fi
 
 User/Account are synonymous in terms of this application - Users are Accounts, not having them
 """
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
 
 templates = Jinja2Templates(directory='templates')
@@ -17,8 +17,10 @@ async def get_account():
 
 
 @router.get("/account/register")
-async def register_get():
-    return {"message": "Viewing Register Account Page"}
+async def register_get(request: Request, is_authenticated: bool = False):
+    mock_user = {"username": "Testboi", "is_authenticated": is_authenticated}
+    response_context = {"request": request, "user": mock_user}
+    return templates.TemplateResponse("register.html", response_context)
 
 
 @router.post("/account/register")
@@ -27,8 +29,10 @@ async def register_post():
 
 
 @router.get("/account/login")
-async def login_get():
-    return {"message": "Viewing Login Account Page"}
+async def login_get(request: Request, is_authenticated: bool = False):
+    mock_user = {"username": "Testboi", "is_authenticated": is_authenticated}
+    response_context = {"request": request, "user": mock_user}
+    return templates.TemplateResponse("login.html", response_context)
 
 
 @router.post("/account/login")
