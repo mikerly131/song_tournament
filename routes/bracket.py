@@ -1,7 +1,7 @@
 """
 Has routes for creating, viewing and filling out brackets
 """
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Form
 from fastapi.templating import Jinja2Templates
 
 templates = Jinja2Templates(directory='templates')
