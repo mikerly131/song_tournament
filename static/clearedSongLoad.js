@@ -1,24 +1,11 @@
-// Script for loading songs based on bracket size selected in create-tourney html template
 function updateSongs() {
-    const bracketSize = parseInt(document.getElementById('bracketSize').value);
+    const bracketSize = document.getElementById('bracketSize').value;
     const songsContainer = document.getElementById('songsContainer') || createSongsContainer();
-    let existingSongs = [];
-
-    // Before clearing songs, save current songs entered
-    const currentSongInputs = songsContainer.getElementsByClassName('song');
-    for (let i = 0; i < currentSongInputs.length; i++) {
-            let title = currentSongInputs[i].querySelector(`input[name="songs[${i}][title]"]`).value;
-            let artist = currentSongInputs[i].querySelector(`input[name="songs[${i}][artist]"]`).value;
-            let clipUrl = currentSongInputs[i].querySelector(`input[name="songs[${i}][clip_url]"]`).value;
-            existingSongs.push({ title, artist, clipUrl });
-        }
-
-    // Clear existing song inputs
-    songsContainer.innerHTML = '';
+    songsContainer.innerHTML = ''; // Clear existing song inputs
 
     for (let i = 0; i < bracketSize; i++) {
         const songDiv = document.createElement('div');
-        songDiv.className = 'song row mb-3';
+        songDiv.className = 'song row mb-3'; // Use 'row' for Bootstrap row formatting
 
         // Create a label for each song group
         const songLabel = document.createElement('h5');
@@ -26,9 +13,9 @@ function updateSongs() {
         songDiv.appendChild(songLabel);
 
         // Creating each input field within a 'col' class for alignment
-        const titleInput = createSongInput(`songs[${i}][title]`, 'Title', 'col-3', existingSongs[i]?.title);
-        const artistInput = createSongInput(`songs[${i}][artist]`, 'Artist', 'col-3', existingSongs[i]?.artist);
-        const clipUrlInput = createSongInput(`songs[${i}][clip_url]`, 'Clip URL', 'col-6', existingSongs[i]?.clipUrl);
+        const titleInput = createSongInput(`songs[${i}][title]`, 'Title', 'col');
+        const artistInput = createSongInput(`songs[${i}][artist]`, 'Artist', 'col');
+        const clipUrlInput = createSongInput(`songs[${i}][clip_url]`, 'Clip URL', 'col');
 
         songDiv.appendChild(titleInput);
         songDiv.appendChild(artistInput);
@@ -45,7 +32,7 @@ function createSongsContainer() {
     return container;
 }
 
-function createSongInput(name, placeholder, className, value = '') {
+function createSongInput(name, placeholder, className) {
     const inputGroup = document.createElement('div');
     inputGroup.className = `${className} input-group mb-3`;
 
@@ -54,7 +41,6 @@ function createSongInput(name, placeholder, className, value = '') {
     input.className = 'form-control';
     input.name = name;
     input.placeholder = placeholder;
-    input.value = value;
 
     inputGroup.appendChild(input);
     return inputGroup;

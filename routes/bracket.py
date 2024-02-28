@@ -1,11 +1,19 @@
 """
 Has routes for creating, viewing and filling out brackets
 """
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
+from fastapi.templating import Jinja2Templates
 
+templates = Jinja2Templates(directory='templates')
 router = APIRouter()
 
 
-@router.get("/brackets")
-async def get_bracket_home():
+@router.get("/brackets/create")
+async def get_bracket(request: Request, is_authenticated: bool = False):
+    mock_user = {"username": "Testboi", "is_authenticated": is_authenticated}
+    return templates.TemplateResponse("create-bracket.html", {"request": request, "user": mock_user})
+
+
+@router.post("/brackets/create")
+async def create_bracket():
     return {"message": "Viewing Bracket Home"}
