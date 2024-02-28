@@ -5,7 +5,9 @@ Has routes available when viewing the account: my song lists, my brackets, my fi
 User/Account are synonymous in terms of this application - Users are Accounts, not having them
 """
 from fastapi import APIRouter
+from fastapi.templating import Jinja2Templates
 
+templates = Jinja2Templates(directory='templates')
 router = APIRouter()
 
 

@@ -15,9 +15,22 @@
         <div class="row mb-3 h-100 align-items-center">
             <div class="col-md-4">
                 <h1>Song Tournament</h1>
-                <p>List songs, pick winners, be cool.</p>
+                <p>Make a bracket, pick winners, be cool.</p>
             </div>
             <div class="col-md-8">
+                {% if user.is_authenticated %}
+                <div class="pb-3 h-25 test-center" >
+                    <p>Create a tournament, or fill out a bracket for existing tournaments</p>
+                </div>
+                <div class="row h-75">
+                    <div class="col-md-6 text-center">
+                       <a href="#" class="btn btn-primary btn-lg">Create Tourneys</a>
+                    </div>
+                    <div class="col-md-6 text-center">
+                       <a href="#" class="btn btn-primary btn-lg">View Tourneys</a>
+                    </div>
+                </div>
+                {% else %}
                 <div class="pb-3 h-25 test-center" >
                     <p>Please login or register to create and fill out tournament brackets</p>
                 </div>
@@ -29,6 +42,7 @@
                        <a href="#" class="btn btn-primary btn-lg">Register</a>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
