@@ -1,11 +1,7 @@
 html, body {
   height: 100%;
 }
+
 .container-fluid {
     flex: 1;
-}
-.bracket-container {
-    width: 1600px;
-    overflow-x: auto;
-    white-space: nowrap;
 }

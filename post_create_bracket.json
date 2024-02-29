@@ -1,0 +1,15 @@
+{
+  "bracketName": "TestBracket",
+  "bracketSeed": "random",
+  "bracketSize": "8",
+  "songs": [
+    {"title": "Song1Title", "artist": "Artist1", "clip_url": "Clip1URL"},
+    {"title": "Song2Title", "artist": "Artist2", "clip_url": "Clip2URL"},
+    {"title": "Song3Title", "artist": "Artist3", "clip_url": "Clip3URL"},
+    {"title": "Song4Title", "artist": "Artist4", "clip_url": "Clip4URL"},
+    {"title": "Song5Title", "artist": "Artist5", "clip_url": "Clip5URL"},
+    {"title": "Song6Title", "artist": "Artist6", "clip_url": "Clip6URL"},
+    {"title": "Song7Title", "artist": "Artist7", "clip_url": "Clip7URL"},
+    {"title": "Song8Title", "artist": "Artist8", "clip_url": "Clip8URL"}
+  ]
+}
