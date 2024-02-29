@@ -37,7 +37,7 @@ def create_songs(db: Session, songs: list):
 def extract_song_id(songs: list):
     song_ids = []
     for song in songs:
-        song_ids.append(song.id)
+        song_ids.append(song['id'])
     return song_ids
 
 

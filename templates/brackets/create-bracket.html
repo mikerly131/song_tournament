@@ -13,9 +13,9 @@
 
     <div class="container-fluid">
         <div class="row my-3 h-100 align-items-center justify-content-center">
-            <form id="tourneySetup" class="my-3 p-3 col-6">
+            <form id="tourneySetup" class="my-3 p-3 col-6" action="/create/bracket" method="POST">
                 <label for="bracket_name" class="form-label h5">Tournament Name: </label>
-                <input type=text class="form-control mb-3" id="bracket_name">
+                <input type=text class="form-control mb-3" id="bracket_name" name="bracket_name">
                 <fieldset class="row mb-3">
                     <legend class="form-label h5 col-sm-2 pt-0">Seeding: </legend>
                     <div class="col-sm-10">
@@ -30,7 +30,7 @@
                     </div>
                 </fieldset>
                 <label for="bracket_size" class="form-label h5">Bracket Size: </label>
-                <select class="form-select mb-4" id="bracket_size" name="num_songs">
+                <select class="form-select mb-4" id="bracket_size" name="bracket_size">
                     <option value="8">8</option>
                     <option value="16">16</option>
                     <option value="32">32</option>

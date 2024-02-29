@@ -1,5 +1,7 @@
 """
 Pydantic classes for brackets, translation between routes and db
+
+Except I'm not using it for some reason.
 """
 from pydantic import BaseModel
 from typing import Optional, List, ForwardRef

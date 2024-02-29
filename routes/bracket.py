@@ -37,11 +37,12 @@ async def create_bracket(request: Request, db: Session = Depends(get_db)):
     form_songs = []
     for s in range(pool_size):
         song = {
-            "title": form_data.get(f"songs[{s}].title"),
-            "artist": form_data.get(f"songs[{s}].artist"),
-            "clip_url": form_data.get(f"songs[{s}].clip_url")
+            "title": form_data.get(f"songs[{s}][title]"),
+            "artist": form_data.get(f"songs[{s}][artist]"),
+            "clip_url": form_data.get(f"songs[{s}][clip_url]")
         }
         form_songs.append(song)
+    print(form_songs)
 
     # create the songs in the database, get back a list of songs dictionaries with song ids
     songs = bracket_svc.create_songs(db, form_songs)
@@ -61,14 +62,14 @@ async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depe
 
     bracket_data = bracket_svc.get_bracket_data(db, bracket_id)
 
-    if bracket_data.pool_size == 8:
-        pass
-    elif bracket_data.pool_size == 16:
-        pass
-    elif bracket_data.pool_size == 32:
-        pass
-    elif bracket_data.pool_size == 64:
-        pass
+    # if bracket_data.pool_size == 8:
+    #     pass
+    # elif bracket_data.pool_size == 16:
+    #     pass
+    # elif bracket_data.pool_size == 32:
+    #     pass
+    # elif bracket_data.pool_size == 64:
+    #     pass
 
     # response_template = f"/brackets/view-bracket-{bracket_size}.html"
     return templates.TemplateResponse("/brackets/view-bracket-64.html", {"request": request, "bracket": bracket_data})

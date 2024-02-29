@@ -7,6 +7,8 @@ server
 # ignore the created db, not for github
 db
 /db
+/*.db
+/.db
 .DS_Store
 DS_Store
 /.DS_Store
