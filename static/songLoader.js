@@ -1,6 +1,6 @@
 // Script for loading songs based on bracket size selected in create-tourney html template
 function updateSongs() {
-    const bracketSize = parseInt(document.getElementById('bracketSize').value);
+    const bracketSize = parseInt(document.getElementById('bracket_size').value);
     const songsContainer = document.getElementById('songsContainer') || createSongsContainer();
     let existingSongs = [];
 
@@ -60,5 +60,5 @@ function createSongInput(name, placeholder, className, value = '') {
     return inputGroup;
 }
 
-document.getElementById('bracketSize').addEventListener('change', updateSongs);
+document.getElementById('bracket_size').addEventListener('change', updateSongs);
 document.addEventListener('DOMContentLoaded', updateSongs);

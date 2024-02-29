@@ -9,28 +9,28 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    {% include 'header.html' %}
+    {% include 'header_no_auth.html' %}
 
     <div class="container-fluid">
         <div class="row my-3 h-100 align-items-center justify-content-center">
             <form id="tourneySetup" class="my-3 p-3 col-6">
-                <label for="bracketName" class="form-label h5">Tournament Name: </label>
-                <input type=text class="form-control mb-3" id="bracketName">
+                <label for="bracket_name" class="form-label h5">Tournament Name: </label>
+                <input type=text class="form-control mb-3" id="bracket_name">
                 <fieldset class="row mb-3">
                     <legend class="form-label h5 col-sm-2 pt-0">Seeding: </legend>
                     <div class="col-sm-10">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="bracketSeed" id="gridRadio1" value="input_order" checked>
+                            <input class="form-check-input" type="radio" name="bracket_seed" id="gridRadio1" value="input_order" checked>
                             <label class="form-check-label" for="gridRadio1">My Input Order</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="bracketSeed" id="gridRadio2" value="random">
+                            <input class="form-check-input" type="radio" name="bracket_seed" id="gridRadio2" value="random">
                             <label class="form-check-label" for="gridRadio2">Random</label>
                         </div>
                     </div>
                 </fieldset>
-                <label for="bracketSize" class="form-label h5">Bracket Size: </label>
-                <select class="form-select mb-4" id="bracketSize" name="num_songs">
+                <label for="bracket_size" class="form-label h5">Bracket Size: </label>
+                <select class="form-select mb-4" id="bracket_size" name="num_songs">
                     <option value="8">8</option>
                     <option value="16">16</option>
                     <option value="32">32</option>

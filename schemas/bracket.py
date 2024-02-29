@@ -7,12 +7,11 @@ from typing import Optional, List, ForwardRef
 
 class Bracket(BaseModel):
     id: int
-    name: str
     user_id: int
     song_list_id: int
+    name: str
     pool_size: int
-    ranking_type: str
-    bracket_status: str
+    seeding_type: str
     seed_list: Optional[list]
 
 

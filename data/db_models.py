@@ -13,25 +13,6 @@ class Base(DeclarativeBase):
     pass
 
 
-class Song(Base):
-    __tablename__ = 'song'
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    title: Mapped[str]
-    artist: Mapped[str]
-    clip: Mapped[str]
-
-
-class SongList(Base):
-    __tablename__ = 'song_list'
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(80))
-    creator: Mapped[int] = mapped_column(ForeignKey('user.id'))
-    size: Mapped[int]
-    songs: Mapped[list] = mapped_column(Text)
-
-
 class User(Base):
     __tablename__ = 'user'
 
@@ -44,16 +25,33 @@ class User(Base):
     # filled_brackets: Mapped[List["FilledBracket"]] = relationship(back_populates="user")
 
 
+class Song(Base):
+    __tablename__ = 'song'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str]
+    artist: Mapped[str]
+    clip_url: Mapped[str]
+
+
+class SongList(Base):
+    __tablename__ = 'song_list'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    creator: Mapped[int] = mapped_column(ForeignKey('user.id'))
+    size: Mapped[int]
+    songs: Mapped[list] = mapped_column(Text)
+
+
 class Bracket(Base):
     __tablename__ = 'bracket'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str]
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
     song_list_id: Mapped[int] = mapped_column(ForeignKey('song_list.id'))
+    name: Mapped[str]
     pool_size: Mapped[int]
-    ranking_type: Mapped[str]
-    bracket_status: Mapped[str]
+    seeding_type: Mapped[str]
     seed_list: Mapped[Optional[list]] = mapped_column(Text)
 
     # relationships
