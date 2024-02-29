@@ -1,5 +1,6 @@
 from data import db_models
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 import random
 
 
@@ -81,6 +82,14 @@ def create_new_bracket(db: Session, song_list_id: int, song_list: list,
     return new_bracket.id
 
 
+# Function to get bracket data
+def get_bracket_data(db: Session, bracket_id: int):
+    query = select(db_models.Bracket).where(id=bracket_id)
+    result = db.execute(query)
+    bracket_data = result.scalars().first()
+    return bracket_data
+
+
 # Function to view summary details of all brackets
 def view_brackets():
     pass
@@ -90,9 +99,5 @@ def view_brackets():
 def view_bracket():
     pass
 
-
-# Function to get a bracket to fill out
-def get_empty_bracket():
-    pass
 
 

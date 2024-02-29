@@ -2,6 +2,7 @@
 Has routes for creating, viewing and filling out brackets
 """
 from fastapi import APIRouter, Request, Depends
+from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from data.database import get_db_session
@@ -52,22 +53,22 @@ async def create_bracket(request: Request, db: Session = Depends(get_db)):
     bracket_id = bracket_svc.create_new_bracket(db, song_list_id, songs, name, seeding_type, pool_size, user_id)
 
     # redirect user to fill out bracket
-    return {"message": "Viewing Bracket Home"}
+    return RedirectResponse(url=f"/fill-out/bracket/{bracket_id}", status_code=303)
 
 
 @router.get("/fill-out/bracket/{bracket_id}")
 async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depends(get_db)):
 
-    bracket_data = get_bracket_data(bracket_id)
+    bracket_data = bracket_svc.get_bracket_data(db, bracket_id)
 
-    if bracket_data.size == 8:
+    if bracket_data.pool_size == 8:
         pass
-    elif bracket_data.size == 16:
+    elif bracket_data.pool_size == 16:
         pass
-    elif bracket_data.size == 32:
+    elif bracket_data.pool_size == 32:
         pass
-    elif bracket_data.size == 64:
+    elif bracket_data.pool_size == 64:
         pass
 
     # response_template = f"/brackets/view-bracket-{bracket_size}.html"
-    return templates.TemplateResponse("/brackets/view-bracket-64.html", {"request": request})
+    return templates.TemplateResponse("/brackets/view-bracket-64.html", {"request": request, "bracket": bracket_data})
