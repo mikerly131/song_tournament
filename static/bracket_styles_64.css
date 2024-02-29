@@ -1,0 +1,128 @@
+html, body {
+    margin: 0;
+    height: 100%
+    /* Ensure full viewport width is utilized */
+    width: 100%;
+    overflow-x: hidden; /* Prevent horizontal overflow at the body level */
+}
+
+.scroll-container {
+    position: fixed; /* Or 'absolute', depending on your layout needs */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; /* Adjust based on header/footer height if necessary */
+    overflow-y: auto; /* Allows vertical scrolling */
+    overflow-x: scroll; /* Always shows horizontal scrollbar */
+}
+
+.tournament-bracket {
+    min-height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap; /* Ensures that rounds can wrap if necessary */
+    overflow-x: visible;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px; /* Adds space between rounds */
+}
+
+.round {
+    display: flex; /* Makes sure matches in a round are in a vertical line */
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0; /* Adjust spacing around each round */
+}
+
+.match {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.team {
+    min-width: 400px; /* Ensures minimum width but can grow */
+    /* Removed 'width: auto;' to avoid potential conflicts. The default behavior should suffice. */
+    height: 40px;
+    background-color: #f0f0f0;
+    margin: 2px 0;
+    padding: 5px 10px;
+    text-align: center;
+    display: inline-flex; /* Changes from flex to inline-flex to allow natural width growth */
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.round-of-32 .match { margin-top: 10px; margin-bottom: 10px; } /* Adjust based on actual layout */
+.round-of-16 .match { margin-top: 65px; margin-bottom: 65px; } /* Adjust accordingly */
+.round-of-8 .match { margin-top: 175px; margin-bottom: 175px; } /* And so on for each round */
+.round-of-4 .match { margin-top: 395px; margin-bottom: 395px; }
+.round-of-2 .match { margin-top: 760px; margin-bottom: 760px; }
+
+.round-of-16 .match:first-child { margin-top: 60px; }
+.round-of-16 .match:last-child { margin-bottom: 10px; }
+
+.round-of-8 .match:first-child { margin-top: 170px; }
+.round-of-8 .match:last-child { margin-bottom: 170px; }
+
+.round-of-4 .match:first-child { margin-top: 390px; }
+.round-of-4 .match:last-child { margin-bottom: 120px; }
+
+.round-of-2 .match:first-child { margin-top: 825px; }
+.round-of-2 .match:last-child { margin-bottom: 240px; }
+
+.champion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.final .team {
+    margin: 0;
+    background-color: gold; /* Highlight for the champion */
+}
+
+
+/*  Commented out for now
+.team.top::after, .team.bottom::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    width: 2px;
+    height: 20px;
+    background-color: #000;
+}
+
+.team.bottom::before {
+    top: -20px;
+}
+
+
+.team.top {
+    border-bottom: 1px solid #aaa;
+}
+
+.team.bottom {
+    border-top: 1px solid #aaa;
+}
+
+
+Adjust the connecting lines for different rounds if necessary
+.round-of-32 .match .team::after, .round-of-32 .match .team::before { height: 40px; }
+.round-of-16 .match .team::after, .round-of-16 .match .team::before { height: 80px; }
+.round-of-8 .match .team::after, .round-of-8 .match .team::before { height: 160px; }
+.round-of-4 .match .team::after, .round-of-4 .match .team::before { height: 320px; }
+.round-of-2 .match .team::after, .round-of-2 .match .team::before { height: 640px; }
+Add further adjustments for additional rounds as necessary
+*/
+
+

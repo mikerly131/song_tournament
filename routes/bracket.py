@@ -22,4 +22,4 @@ async def create_bracket():
 
 @router.get("/brackets/fill-out")
 async def fill_out_bracket(request: Request):
-    return templates.TemplateResponse("/brackets/view-bracket-8.html", {"request": request})
+    return templates.TemplateResponse("/brackets/view-bracket-64.html", {"request": request})

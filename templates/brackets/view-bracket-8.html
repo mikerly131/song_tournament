@@ -9,52 +9,57 @@
 </head>
 <body class="min-vh-100">
 
-    <!-- Uncomment after testing {% include 'header.html' %} -->
-
     <div class="h-100 bracket-container">
         <div class="tournament">
             <div class="round" id="left4">
-                <div class="match-left">
-                    <div class="song-top">Wanna Be Starting Something - Michael Jackson</div>
-                    <div class="song-bottom">The Best of Me - The Starting Line</div>
-                </div>
-                <div class="match-left">
-                    <div class="song top">Safety Dance - Men Without Hats</div>
-                    <div class="song bottom">Pepper - Butthole Surfers</div>
+                <div class="row match-left">
+                    <div class="song-left song-top">Wanna Be Starting Something - Michael Jackson</div>
+                    <div class="song-bottom song-left">The Best of Me - The Starting Line</div>
+                </div><br>
+                <div class="row match-left">
+                    <div class="song-left song-top">Safety Dance - Men Without Hats</div>
+                    <div class="song-bottom song-left">Pepper - Butthole Surfers</div>
                 </div>
             </div>
             <div class="round" id="left2">
-                <div class="match-left">
-                    <div class="song top">The Best of Me - The Starting Line</div>
+                <div class="row match-left">
+                    <div class="song-left song-top">The Best of Me - The Starting Line</div>
                     <div class="left-spacer"></div>
-                    <div class="song bottom">Safety Dance - Men Without Hats</div>
+                    <div class="song-bottom song-left">Safety Dance - Men Without Hats</div>
                 </div>
             </div>
-            <div class="col" id="finals">
-                <div class="row" id="lastMatch">Last Match</div>
-                <div class="row" id="champion">Champion</div>
+            <div class="round" id="finals-left">
+                <div class="row match-left" id="finalst1">
+                    <div class="song-left song-top">The Best of Me - The Starting Line</div>
+                </div>
+            </div>
+            <div class="round" id="champ">
+                <div class="row champion" id="champion">Digital Love - Daft Punk</div>
+            </div>
+            <div class="round" id="finals-right">
+                <div class="row match-right" id="finalist2">
+                    <div class="song-top song-right">Digital Love - Daft Punk</div>
+                </div>
             </div>
             <div class="round" id="right2">
-                <div class="match-right">
-                    <div class="song top"></div>
+                <div class="row match-right">
+                    <div class="song-right song-top">Digital Love - Daft Punk</div>
                     <div class="right-spacer"></div>
-                    <div class="song bottom"></div>
+                    <div class="song-bottom song-right">Ive Just Seen A Face - The Beatles</div>
                 </div>
             </div>
             <div class="round" id="right4">
-                <div class="match-right">
-                    <div class="song top"></div>
-                    <div class="song bottom"></div>
-                </div>
-                <div class="match-right">
-                    <div class="song top"></div>
-                    <div class="song bottom"></div>
+                <div class="row match-right">
+                    <div class="song-right song-top">Lazy Eye - Silversun Pickups</div>
+                    <div class="song-bottom song-right">Digital Love - Daft Punk</div>
+                </div><br>
+                <div class="row match-right">
+                    <div class="song-right song-top">Ive Just Seen A Face - The Beatles</div>
+                    <div class="song-bottom song-right">Project Bitch - Big Tymers, Juvenile, Lil Wayne</div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Uncomment after testing {% include 'footer.html' %} -->
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>

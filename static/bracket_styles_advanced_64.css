@@ -1,0 +1,128 @@
+/* Basic Styling - no lines */
+.tournament-bracket {
+    display: flex;
+    justify-content: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.round {
+    margin: 20px;
+}
+
+.match {
+    margin: 10px 0;
+}
+
+.team {
+    height: 20px;
+    background-color: #f0f0f0;
+    margin: 5px 0;
+    padding: 5px;
+    text-align: center;
+}
+
+.champion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.final .team {
+    margin: 0;
+    background-color: gold; /* Highlight for the champion */
+}
+
+/* Additional styling to visually separate rounds and align teams */
+.round-of-32 .match { height: 40px; }
+.round-of-16 .match { height: 80px; }
+.round-of-8 .match { height: 160px; }
+.round-of-4 .match { height: 320px; }
+.round-of-2 .match { height: 6400px; }
+/* Continue for all rounds */
+
+
+/* Advanced Styling - some lines */
+.tournament-bracket {
+    display: flex;
+    justify-content: center;
+    position: relative; /* Needed for absolute positioning of lines */
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.round {
+    margin: 20px;
+    position: relative; /* Needed for positioning lines within each round */
+}
+
+.match {
+    margin: 15px 0;
+    position: relative; /* Needed for pseudo-elements */
+}
+
+.team {
+    height: 20px;
+    background-color: #f0f0f0;
+    margin: 5px 0;
+    padding: 5px;
+    text-align: center;
+    position: relative; /* Needed for pseudo-elements */
+}
+
+.team::after {
+    content: '';
+    position: absolute;
+    right: 100%; /* Adjust based on direction */
+    top: 50%;
+    width: 20px; /* Distance between teams and the connecting line */
+    border-top: 1px solid #000; /* Creates the horizontal line */
+}
+
+.match::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: calc(100% + 10px); /* Adjust based on the match spacing */
+    border-left: 1px solid #000; /* Creates the vertical line connecting teams */
+}
+
+/* Adjustments for left and right columns */
+.column.left .team::after {
+    left: 100%; /* Lines go right for left column */
+    right: auto;
+}
+
+.column.right .team::after {
+    left: auto; /* Lines go left for right column */
+    right: 100%;
+}
+
+/* Remove lines from the final match as it has no next round */
+#champion .team::after, #finalst1 .team::after, #finalist2 .team::after {
+    display: none;
+}
+
+.champion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.final .team {
+    background-color: gold; /* Highlight for the champion */
+}
+
+/* Adjust the vertical connecting lines for different rounds */
+.round-of-32 .match::after { height: calc(100% + 30px); } /* Adjust based on spacing */
+.round-of-16 .match::after { height: calc(100% + 70px); } /* Adjust for each subsequent round */
+/* Continue adjustments for each round */
