@@ -15,7 +15,7 @@ templates = Jinja2Templates(directory='templates')
 router = APIRouter()
 
 
-@router.get("/account")
+@router.get("/view/account/{user_name}")
 async def get_account():
     return {"message": "Viewing Account Page"}
 
@@ -32,7 +32,12 @@ async def register_account(request: Request, db: Session = Depends(get_db_sessio
     username = form_data.get('username')
     password = form_data.get('password')
 
-    return {"message": "Post to register account, will re-direct to login."}
+    user = account_svc.create_account(db, username, password)
+
+    resp = RedirectResponse(url='/', status_code=status.HTTP_302_FOUND)
+    auth_svc.set_auth_cookie(resp, user)
+
+    return resp
 
 
 @router.get("/login/account")
