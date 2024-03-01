@@ -5,10 +5,12 @@ Using sqlite while developing, probably postgresql swapped in for deploy for use
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from data.db_models import Base
+from config import DATABASE_URL
 from contextlib import contextmanager
 
 # Setup engine to create connection to DB, connect_args only needed for sqlite dbs otherwise remove it
-engine = create_engine("sqlite+pysqlite:///./bracket_voter_simple.db", connect_args={"check_same_thread": False})
+# engine = create_engine("sqlite+pysqlite:///./bracket_voter_simple.db", connect_args={"check_same_thread": False})
+engine = create_engine(DATABASE_URL, echo=False)
 
 # Create tables in the DB from Base - all classes(tables) defined in db_models including Base, so only importing Base
 Base.metadata.create_all(engine)

@@ -5,6 +5,7 @@ Relationships commented out while working on simple pydantic models and routes, 
 """
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy import ForeignKey, Text, String
 from typing import Optional, List
 
@@ -40,7 +41,7 @@ class SongList(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     creator: Mapped[int] = mapped_column(ForeignKey('user.id'))
     size: Mapped[int]
-    songs: Mapped[list] = mapped_column(Text)
+    songs: Mapped[list] = mapped_column(JSON)
 
 
 class Bracket(Base):
@@ -52,7 +53,7 @@ class Bracket(Base):
     name: Mapped[str]
     pool_size: Mapped[int]
     seeding_type: Mapped[str]
-    seed_list: Mapped[Optional[list]] = mapped_column(Text)
+    seed_list: Mapped[Optional[list]] = mapped_column(JSON)
 
     # relationships
     # user: Mapped['User'] = relationship(back_populates="created_brackets")
@@ -65,13 +66,13 @@ class FilledBracket(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     bracket_id: Mapped[int] = mapped_column(ForeignKey('bracket.id'))
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
-    bracket_list: Mapped[list] = mapped_column(Text)
-    first_32: Mapped[Optional[list]] = mapped_column(Text)
-    sweet_16: Mapped[Optional[list]] = mapped_column(Text)
-    elite_8: Mapped[Optional[list]] = mapped_column(Text)
-    final_4: Mapped[Optional[list]] = mapped_column(Text)
-    last_2: Mapped[Optional[list]] = mapped_column(Text)
-    champion: Mapped[Optional[list]] = mapped_column(Text)
+    bracket_list: Mapped[list] = mapped_column(JSON)
+    first_32: Mapped[Optional[list]] = mapped_column(JSON)
+    sweet_16: Mapped[Optional[list]] = mapped_column(JSON)
+    elite_8: Mapped[Optional[list]] = mapped_column(JSON)
+    final_4: Mapped[Optional[list]] = mapped_column(JSON)
+    last_2: Mapped[Optional[list]] = mapped_column(JSON)
+    champion: Mapped[Optional[list]] = mapped_column(JSON)
 
     # relationships
     # user: Mapped["User"] = relationship(back_populates="filled_brackets")

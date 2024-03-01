@@ -12,18 +12,13 @@ templates = Jinja2Templates(directory='templates')
 router = APIRouter()
 
 
-def get_db():
-    with get_db_session() as db:
-        yield db
-
-
 @router.get("/create/bracket")
 async def create_bracket(request: Request):
     return templates.TemplateResponse("/brackets/create-bracket.html", {"request": request})
 
 
 @router.post("/create/bracket")
-async def create_bracket(request: Request, db: Session = Depends(get_db)):
+async def create_bracket(request: Request, db: Session = Depends(get_db_session)):
 
     # get the form data
     form_data = await request.form()
@@ -58,7 +53,7 @@ async def create_bracket(request: Request, db: Session = Depends(get_db)):
 
 
 @router.get("/fill-out/bracket/{bracket_id}")
-async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depends(get_db)):
+async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depends(get_db_session)):
 
     bracket_data = bracket_svc.get_bracket_data(db, bracket_id)
 
