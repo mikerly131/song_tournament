@@ -9,7 +9,7 @@
         <li class="nav-item">
           <a class="nav-link" href="/">Home</a>
         </li>
-        {% if user %}
+        {% if user_id %}
         <li class="nav-item">
           <a class="nav-link" href="/">Brackets</a>
         </li>
@@ -19,7 +19,7 @@
         {% endif %}
       </ul>
       <ul class="navbar-nav ms-auto">
-        {% if user %}
+        {% if user_id %}
         <li class="nav-item">
           <a class="nav-link" href="#">Account</a>
         </li>
