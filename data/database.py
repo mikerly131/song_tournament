@@ -6,7 +6,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from data.db_models import Base
 from config import DATABASE_URL
-from contextlib import contextmanager
 
 # Setup engine to create connection to DB, connect_args only needed for sqlite dbs otherwise remove it
 # engine = create_engine("sqlite+pysqlite:///./bracket_voter_simple.db", connect_args={"check_same_thread": False})
@@ -22,7 +21,6 @@ Session = sessionmaker(bind=engine)
 
 # Get a session for each request (that needs one) to transact with DB
 # Use it for life of request, and then close out the session (released)
-@contextmanager
 def get_db_session():
     session = Session()
     try:

@@ -67,4 +67,4 @@ async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depe
     #     pass
 
     # response_template = f"/brackets/view-bracket-{bracket_size}.html"
-    return templates.TemplateResponse("/brackets/view-bracket-64.html", {"request": request, "bracket": bracket_data})
+    return templates.TemplateResponse("/brackets/fill-bracket-64.html", {"request": request, "bracket": bracket_data})

@@ -15,7 +15,7 @@ templates = Jinja2Templates(directory='templates')
 router = APIRouter()
 
 
-@router.get("/view/account/{user_name}")
+@router.get("/view/account/")
 async def get_account(request: Request, user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
     return {"message": "Viewing Account Page"}
 

@@ -1,3 +1,9 @@
+"""
+Auth-ish functions for creating a cookie for the user to access protected routes
+
+For a real site, probably need something better like oAuth & JWTs.
+"""
+
 import hashlib
 from typing import Optional
 from fastapi import Request

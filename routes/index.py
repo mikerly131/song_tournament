@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
+from services import auth_svc
 
 
 templates = Jinja2Templates(directory='templates')
@@ -7,7 +8,5 @@ router = APIRouter()
 
 
 @router.get("/")
-async def index(request: Request, is_authenticated: bool = False):
-    mock_user = {"username": "Testboi", "is_authenticated": is_authenticated}
-    response_context = {"request": request, "user": mock_user}
-    return templates.TemplateResponse("index.html", response_context)
+async def index(request: Request, user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+    return templates.TemplateResponse("index.html", {"request": request, "user": user_id})
