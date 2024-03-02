@@ -9,8 +9,7 @@ function updateSongs() {
     for (let i = 0; i < currentSongInputs.length; i++) {
             let title = currentSongInputs[i].querySelector(`input[name="songs[${i}][title]"]`).value;
             let artist = currentSongInputs[i].querySelector(`input[name="songs[${i}][artist]"]`).value;
-            let clipUrl = currentSongInputs[i].querySelector(`input[name="songs[${i}][clip_url]"]`).value;
-            existingSongs.push({ title, artist, clipUrl });
+            existingSongs.push({ title, artist });
         }
 
     // Clear existing song inputs
@@ -28,11 +27,9 @@ function updateSongs() {
         // Creating each input field within a 'col' class for alignment
         const titleInput = createSongInput(`songs[${i}][title]`, 'Title', 'col-3', existingSongs[i]?.title);
         const artistInput = createSongInput(`songs[${i}][artist]`, 'Artist', 'col-3', existingSongs[i]?.artist);
-        const clipUrlInput = createSongInput(`songs[${i}][clip_url]`, 'Clip URL', 'col-6', existingSongs[i]?.clipUrl);
 
         songDiv.appendChild(titleInput);
         songDiv.appendChild(artistInput);
-        songDiv.appendChild(clipUrlInput);
 
         songsContainer.appendChild(songDiv);
     }

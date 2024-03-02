@@ -28,7 +28,6 @@ def create_songs(db: Session, songs: list):
             'id': s.id,
             'title': s.title,
             'artist': s.artist,
-            'clip_url': s.clip_url
         })
 
     return song_list

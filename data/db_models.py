@@ -32,7 +32,6 @@ class Song(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str]
     artist: Mapped[str]
-    clip_url: Mapped[str]
 
 
 class SongList(Base):

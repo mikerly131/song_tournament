@@ -8,12 +8,13 @@ from sqlalchemy.orm import Session
 from data.database import get_db_session
 from services import bracket_svc, auth_svc
 
+
 templates = Jinja2Templates(directory='templates')
 router = APIRouter()
 
 
 @router.get("/create/bracket")
-async def create_bracket(request: Request, user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+async def get_bracket_setup(request: Request, user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
     return templates.TemplateResponse("/brackets/create-bracket.html", {"request": request, "user_id": user_id})
 
 
@@ -28,7 +29,7 @@ async def create_bracket(request: Request, db: Session = Depends(get_db_session)
     if user:
         user_id = user
     else:
-        return None
+        return {"Failure": "Not logged in"}
 
     name = form_data.get("bracket_name")
     seeding_type = form_data.get("bracket_seed")
@@ -37,8 +38,7 @@ async def create_bracket(request: Request, db: Session = Depends(get_db_session)
     for s in range(pool_size):
         song = {
             "title": form_data.get(f"songs[{s}][title]"),
-            "artist": form_data.get(f"songs[{s}][artist]"),
-            "clip_url": form_data.get(f"songs[{s}][clip_url]")
+            "artist": form_data.get(f"songs[{s}][artist]")
         }
         form_songs.append(song)
     print(form_songs)
@@ -64,16 +64,6 @@ async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depe
         return None
 
     bracket_data = bracket_svc.get_bracket_data(db, bracket_id)
-
-    # if bracket_data.pool_size == 8:
-    #      pass
-    # elif bracket_data.pool_size == 16:
-    #      pass
-    # elif bracket_data.pool_size == 32:
-    #      pass
-    # elif bracket_data.pool_size == 64:
-    #      pass
-
     response_template = f"/brackets/view-bracket-{bracket_data.pool_size}.html"
 
-    return templates.TemplateResponse(response_template, {"request": request, "bracket": bracket_data})
+    return templates.TemplateResponse(response_template, {"request": request, "user_id": user, "bracket": bracket_data})

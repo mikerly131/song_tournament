@@ -8,5 +8,3 @@ class Song(BaseModel):
     id: int
     title: str
     artist: str
-    clip_url: str
-

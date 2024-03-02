@@ -9,4 +9,4 @@ router = APIRouter()
 
 @router.get("/")
 async def index(request: Request, user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
-    return templates.TemplateResponse("index.html", {"request": request, "user": user_id})
+    return templates.TemplateResponse("index.html", {"request": request, "user_id": user_id})
