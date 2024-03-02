@@ -6,25 +6,29 @@ from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from data.database import get_db_session
-from services import bracket_svc
+from services import bracket_svc, auth_svc
 
 templates = Jinja2Templates(directory='templates')
 router = APIRouter()
 
 
 @router.get("/create/bracket")
-async def create_bracket(request: Request):
-    return templates.TemplateResponse("/brackets/create-bracket.html", {"request": request})
+async def create_bracket(request: Request, user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+    return templates.TemplateResponse("/brackets/create-bracket.html", {"request": request, "user_id": user_id})
 
 
 @router.post("/create/bracket")
-async def create_bracket(request: Request, db: Session = Depends(get_db_session)):
+async def create_bracket(request: Request, db: Session = Depends(get_db_session),
+                         user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
 
     # get the form data
     form_data = await request.form()
 
     # get user from cookie or token
-    user_id = 1
+    if user:
+        user_id = user
+    else:
+        return None
 
     name = form_data.get("bracket_name")
     seeding_type = form_data.get("bracket_seed")
@@ -53,18 +57,23 @@ async def create_bracket(request: Request, db: Session = Depends(get_db_session)
 
 
 @router.get("/fill-out/bracket/{bracket_id}")
-async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depends(get_db_session)):
+async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depends(get_db_session),
+                           user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+
+    if not user:
+        return None
 
     bracket_data = bracket_svc.get_bracket_data(db, bracket_id)
 
     # if bracket_data.pool_size == 8:
-    #     pass
+    #      pass
     # elif bracket_data.pool_size == 16:
-    #     pass
+    #      pass
     # elif bracket_data.pool_size == 32:
-    #     pass
+    #      pass
     # elif bracket_data.pool_size == 64:
-    #     pass
+    #      pass
 
-    # response_template = f"/brackets/view-bracket-{bracket_size}.html"
-    return templates.TemplateResponse("/brackets/fill-bracket-64.html", {"request": request, "bracket": bracket_data})
+    response_template = f"/brackets/view-bracket-{bracket_data.pool_size}.html"
+
+    return templates.TemplateResponse(response_template, {"request": request, "bracket": bracket_data})
