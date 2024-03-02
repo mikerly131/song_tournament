@@ -8,10 +8,10 @@ html, body {
 
 .scroll-container {
     position: fixed; /* Or 'absolute', depending on your layout needs */
-    top: 0;
+    top: 56px;
     left: 0;
     right: 0;
-    bottom: 0; /* Adjust based on header/footer height if necessary */
+    bottom: 48px; /* Adjust based on header/footer height if necessary */
     overflow-y: auto; /* Allows vertical scrolling */
     overflow-x: scroll; /* Always shows horizontal scrollbar */
 }
@@ -74,7 +74,7 @@ html, body {
 .round-of-8 .match:last-child { margin-bottom: 170px; }
 
 .round-of-4 .match:first-child { margin-top: 390px; }
-.round-of-4 .match:last-child { margin-bottom: 120px; }
+.round-of-4 .match:last-child { margin-bottom: 390px; }
 
 .round-of-2 .match:first-child { margin-top: 825px; }
 .round-of-2 .match:last-child { margin-bottom: 240px; }

@@ -12,8 +12,7 @@ def create_songs(db: Session, songs: list):
     for song in songs:
         db_song = db_models.Song(
             title=song['title'],
-            artist=song['artist'],
-            clip_url=song['clip_url']
+            artist=song['artist']
         )
         db.add(db_song)
         db_songs.append(db_song)
@@ -83,7 +82,7 @@ def create_new_bracket(db: Session, song_list_id: int, song_list: list,
 
 # Function to get bracket data
 def get_bracket_data(db: Session, bracket_id: int):
-    query = select(db_models.Bracket).where(id=bracket_id)
+    query = select(db_models.Bracket).where(db_models.Bracket.id == bracket_id)
     result = db.execute(query)
     bracket_data = result.scalars().first()
     return bracket_data
