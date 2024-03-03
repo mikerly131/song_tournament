@@ -1,83 +1,21 @@
-html, body {
-    margin: 0;
-    height: 100%
-    /* Ensure full viewport width is utilized */
-    width: 100%;
-    overflow-x: hidden; /* Prevent horizontal overflow at the body level */
-}
+/* Spacing for 64 song bracket */
+.first-64 .match { margin-top: 10px; margin-bottom: 10px; }
+.next-32 .match { margin-top: 65px; margin-bottom: 65px; }
+.sweet-16 .match { margin-top: 175px; margin-bottom: 175px; }
+.elite-8 .match { margin-top: 395px; margin-bottom: 395px; }
+.semi-finals .match { margin-top: 760px; margin-bottom: 760px; }
 
-.scroll-container {
-    position: fixed; /* Or 'absolute', depending on your layout needs */
-    top: 56px;
-    left: 0;
-    right: 0;
-    bottom: 48px; /* Adjust based on header/footer height if necessary */
-    overflow-y: auto; /* Allows vertical scrolling */
-    overflow-x: scroll; /* Always shows horizontal scrollbar */
-}
+.next-32 .match:first-child { margin-top: 60px; }
+.next-32 .match:last-child { margin-bottom: 10px; }
 
-.tournament-bracket {
-    min-height: 100%;
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: nowrap; /* Ensures that rounds can wrap if necessary */
-    overflow-x: visible;
-}
+.sweet-16 .match:first-child { margin-top: 170px; }
+.sweet-16 .match:last-child { margin-bottom: 170px; }
 
-.column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 10px; /* Adds space between rounds */
-}
+.elite-8 .match:first-child { margin-top: 390px; }
+.elite-8 .match:last-child { margin-bottom: 390px; }
 
-.round {
-    display: flex; /* Makes sure matches in a round are in a vertical line */
-    flex-direction: column;
-    align-items: center;
-    margin: 10px 0; /* Adjust spacing around each round */
-}
-
-.match {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-}
-
-.team {
-    min-width: 400px; /* Ensures minimum width but can grow */
-    /* Removed 'width: auto;' to avoid potential conflicts. The default behavior should suffice. */
-    height: 40px;
-    background-color: #f0f0f0;
-    margin: 2px 0;
-    padding: 5px 10px;
-    text-align: center;
-    display: inline-flex; /* Changes from flex to inline-flex to allow natural width growth */
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    white-space: nowrap; /* Prevents text from wrapping */
-}
-
-.round-of-32 .match { margin-top: 10px; margin-bottom: 10px; } /* Adjust based on actual layout */
-.round-of-16 .match { margin-top: 65px; margin-bottom: 65px; } /* Adjust accordingly */
-.round-of-8 .match { margin-top: 175px; margin-bottom: 175px; } /* And so on for each round */
-.round-of-4 .match { margin-top: 395px; margin-bottom: 395px; }
-.round-of-2 .match { margin-top: 760px; margin-bottom: 760px; }
-
-.round-of-16 .match:first-child { margin-top: 60px; }
-.round-of-16 .match:last-child { margin-bottom: 10px; }
-
-.round-of-8 .match:first-child { margin-top: 170px; }
-.round-of-8 .match:last-child { margin-bottom: 170px; }
-
-.round-of-4 .match:first-child { margin-top: 390px; }
-.round-of-4 .match:last-child { margin-bottom: 390px; }
-
-.round-of-2 .match:first-child { margin-top: 825px; }
-.round-of-2 .match:last-child { margin-bottom: 240px; }
+.semi-finals .match:first-child { margin-top: 825px; }
+.semi-finals .match:last-child { margin-bottom: 240px; }
 
 .finals .match:first-child { margin-top: 60px; }
 .finals .match:last-child { margin-bottom: 60px; }

@@ -1,0 +1,33 @@
+/* Spacing for 32 song bracket */
+.next-32 .match { margin-top: 10px; margin-bottom: 10px; }
+.sweet-16 .match { margin-top: 65px; margin-bottom: 65px; }
+.elite-8 .match { margin-top: 175px; margin-bottom: 175px; }
+.semi-finals .match { margin-top: 395px; margin-bottom: 395px; }
+
+.sweet-16 .match:first-child { margin-top: 60px; }
+.sweet-16 .match:last-child { margin-bottom: 10px; }
+
+.elite-8 .match:first-child { margin-top: 170px; }
+.elite-8 .match:last-child { margin-bottom: 170px; }
+
+.semi-finals .match:first-child { margin-top: 390px; }
+.semi-finals .match:last-child { margin-bottom: 390px; }
+
+.finals .match:first-child { margin-top: 20px; }
+.finals .match:last-child { margin-bottom: 60px; }
+
+.champion {
+    align-items: center;
+    justify-content: center;
+    margin: 2px 0;
+    padding: 40px 10px 10px 10px;
+}
+
+.finals .match .team {
+    background-color: #afcecf;
+}
+
+.champion .team {
+    background-color: gold;
+}
+

@@ -5,83 +5,125 @@
     <meta name ="viewport" content="width=device-width, initial-scale=1">
     <title>Song Tournament - 64 Song Bracket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/bracket_styles.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/bracket_styles_32.css') }}" rel="stylesheet">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
 {% include 'header.html' %}
 
-<div class="scroll-container">
-    <div>
-        {% bracket.name %} <br>
-        {% bracket.pool_size %}
+<div class="row">
+    <div class="column">
+        <h2>Tournament: {{ bracket.name }} </h2>
+        <h3>Songs: {{ bracket.pool_size }} </h3>
     </div>
+</div>
+
+<div class="scroll-container">
     <div class="tournament-bracket">
-        <div class="column left">
-            <div class="round round-of-16">
-                <div class="match"><div class="team top">Team1</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team3</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team5</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team7</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team9</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team11</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team13</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team15</div><div class="team bottom">Team2</div></div>
+        <div class="column next-32 left">
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[0]['id'] }}">{{ bracket.seed_list[0]['title'] }} - {{ bracket.seed_list[0]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[31]['id'] }}">{{ bracket.seed_list[31]['title'] }} - {{bracket.seed_list[31]['artist'] }}</div>
+            </div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[15]['id'] }}">{{ bracket.seed_list[15]['title'] }} - {{bracket.seed_list[15]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[16]['id'] }}">{{ bracket.seed_list[16]['title'] }} - {{bracket.seed_list[16]['artist'] }}</div>
+            </div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[11]['id'] }}">{{ bracket.seed_list[11]['title'] }} - {{ bracket.seed_list[11]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[20]['id'] }}">{{ bracket.seed_list[20]['title'] }} - {{bracket.seed_list[20]['artist'] }}</div>
+            </div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[7]['id'] }}">{{ bracket.seed_list[7]['title'] }} - {{bracket.seed_list[7]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[24]['id'] }}">{{ bracket.seed_list[24]['title'] }} - {{bracket.seed_list[24]['artist'] }}</div>
+            </div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[4]['id'] }}">{{ bracket.seed_list[4]['title'] }} - {{ bracket.seed_list[4]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[27]['id'] }}">{{ bracket.seed_list[27]['title'] }} - {{bracket.seed_list[27]['artist'] }}</div>
+            </div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[8]['id'] }}">{{ bracket.seed_list[8]['title'] }} - {{bracket.seed_list[8]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[23]['id'] }}">{{ bracket.seed_list[23]['title'] }} - {{bracket.seed_list[23]['artist'] }}</div>
+            </div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[12]['id'] }}">{{ bracket.seed_list[12]['title'] }} - {{ bracket.seed_list[12]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[19]['id'] }}">{{ bracket.seed_list[19]['title'] }} - {{bracket.seed_list[19]['artist'] }}</div>
+            </div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[3]['id'] }}">{{ bracket.seed_list[3]['title'] }} - {{bracket.seed_list[3]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[28]['id'] }}">{{ bracket.seed_list[28]['title'] }} - {{bracket.seed_list[28]['artist'] }}</div>
             </div>
         </div>
-        <div class="column left">
-            <div class="round round-of-8">
-                <div class="match"><div class="team top">Team1</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team3</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team5</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team7</div><div class="team bottom">Team2</div></div>
+        <div class="column sweet-16 left">
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
+        </div>
+        <div class="column elite-8 left">
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
+        </div>
+        <div class="column semi-finals left">
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
+        </div>
+        <div class="column finals">
+            <div class="match row">
+                <h3 class="text-center">Finals</h3>
+                <div class="team top"></div>
+                <div class="team bottom"></div>
+            </div>
+            <div class="champion row">
+                <h3 class="text-center">Champion</h3>
+                <div class="team"></div>
             </div>
         </div>
-        <div class="column left">
-            <div class="round round-of-4">
-                <div class="match"><div class="team top">Team1</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team3</div><div class="team bottom">Team2</div></div>
-            </div>
+        <div class="column semi-finals right">
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
         </div>
-        <div class="column left">
-            <div class="round round-of-2">
-                <div class="match"><div class="team top">Team1</div><div class="team bottom">Team2</div></div>
-            </div>
+        <div class="column elite-8 right">
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
         </div>
-        <div class="champion">
-            <div class="final">
-                <div class="team">Philadelphia Eagles</div>
-            </div>
+        <div class="column sweet-16 right">
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
+                <div class="match"><div class="team top"></div><div class="team bottom"></div></div>
         </div>
-        <div class="column right">
-            <div class="round round-of-2">
-                <div class="match"><div class="team top">Team1</div><div class="team bottom">Team2</div></div>
+        <div class="column next-32 right">
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[1]['id'] }}">{{ bracket.seed_list[1]['title'] }} - {{ bracket.seed_list[1]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[30]['id'] }}">{{ bracket.seed_list[30]['title'] }} - {{bracket.seed_list[30]['artist'] }}</div>
             </div>
-        </div>
-        <div class="column right">
-            <div class="round round-of-4">
-                <div class="match"><div class="team top">Team1</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team3</div><div class="team bottom">Team2</div></div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[14]['id'] }}">{{ bracket.seed_list[14]['title'] }} - {{bracket.seed_list[14]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[17]['id'] }}">{{ bracket.seed_list[17]['title'] }} - {{bracket.seed_list[17]['artist'] }}</div>
             </div>
-        </div>
-        <div class="column right">
-            <div class="round round-of-8">
-                <div class="match"><div class="team top">Team1</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team3</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team5</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team7</div><div class="team bottom">Team2</div></div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[10]['id'] }}">{{ bracket.seed_list[10]['title'] }} - {{ bracket.seed_list[10]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[21]['id'] }}">{{ bracket.seed_list[21]['title'] }} - {{bracket.seed_list[21]['artist'] }}</div>
             </div>
-        </div>
-        <div class="column right">
-            <div class="round round-of-16">
-                <div class="match"><div class="team top">Team1</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team3</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team5</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team7</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team9</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team11</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team13</div><div class="team bottom">Team2</div></div>
-                <div class="match"><div class="team top">Team15</div><div class="team bottom">Team2</div></div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[6]['id'] }}">{{ bracket.seed_list[6]['title'] }} - {{bracket.seed_list[6]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[25]['id'] }}">{{ bracket.seed_list[25]['title'] }} - {{bracket.seed_list[25]['artist'] }}</div>
+            </div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[5]['id'] }}">{{ bracket.seed_list[5]['title'] }} - {{ bracket.seed_list[5]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[26]['id'] }}">{{ bracket.seed_list[26]['title'] }} - {{bracket.seed_list[26]['artist'] }}</div>
+            </div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[9]['id'] }}">{{ bracket.seed_list[9]['title'] }} - {{bracket.seed_list[9]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[22]['id'] }}">{{ bracket.seed_list[22]['title'] }} - {{bracket.seed_list[22]['artist'] }}</div>
+            </div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[13]['id'] }}">{{ bracket.seed_list[13]['title'] }} - {{ bracket.seed_list[13]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[18]['id'] }}">{{ bracket.seed_list[18]['title'] }} - {{bracket.seed_list[18]['artist'] }}</div>
+            </div>
+            <div class="match">
+                <div class="team top" id="song_{{ bracket.seed_list[2]['id'] }}">{{ bracket.seed_list[2]['title'] }} - {{bracket.seed_list[2]['artist'] }}</div>
+                <div class="team bottom" id="song_{{ bracket.seed_list[29]['id'] }}">{{ bracket.seed_list[29]['title'] }} - {{bracket.seed_list[29]['artist'] }}</div>
             </div>
         </div>
     </div>

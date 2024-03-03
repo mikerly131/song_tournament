@@ -7,10 +7,10 @@ html, body {
 
 .scroll-container {
     position: fixed; /* Should this be absolute? */
-    top: 163px; /* Header is nav-bar, 56px, title row 106px */
+    top: 163px; /* header is nav-bar, 56px, title row 106px */
     left: 0;
     right: 0;
-    bottom: 48px; /* Footer is about 48 px */
+    bottom: 48px; /* footer is about 48 px */
     overflow-y: auto; /* for vertical scrolling */
     overflow-x: scroll; /* always show horizontal scrollbar */
 }
