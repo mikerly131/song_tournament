@@ -1,0 +1,26 @@
+/* Column spacing for 8 team bracket */
+.round-of-4 .match { margin-top: 10px; margin-bottom: 10px; } /* Adjust based on actual layout */
+.round-of-2 .match { margin-top: 65px; margin-bottom: 65px; } /* Adjust accordingly */
+.round-of-1 .match { margin-top: 175px; margin-bottom: 175px; } /* And so on for each round */
+
+.round-of-2 .match:first-child { margin-top: 60px; }
+.round-of-2 .match:last-child { margin-bottom: 10px; }
+
+.finals .match:first-child { margin-top: 20px; }
+.finals .match:last-child { margin-bottom: 60px; }
+
+.champion {
+    align-items: center;
+    justify-content: center;
+    margin: 2px 0;
+    padding: 40px 10px 10px 10px;
+}
+
+.finals .match .team {
+    background-color: #afcecf;
+}
+
+.champion .team {
+    background-color: gold;
+}
+

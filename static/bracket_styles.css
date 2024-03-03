@@ -1,78 +1,53 @@
-.bracket-container {
-  width: 2800px;
-  overflow-x: hidden;
-  white-space: nowrap;
+html, body {
+    margin: 0;
+    height: 100%
+    width: 100%;  /* use full viewport width always */
+    overflow-x: hidden; /* added to stop horizontal overflow, idk why its happening */
 }
 
-.tournament {
-  display: flex;
-  flex-direction: row;
+.scroll-container {
+    position: fixed; /* Should this be absolute? */
+    top: 163px; /* Header is nav-bar, 56px, title row 106px */
+    left: 0;
+    right: 0;
+    bottom: 48px; /* Footer is about 48 px */
+    overflow-y: auto; /* for vertical scrolling */
+    overflow-x: scroll; /* always show horizontal scrollbar */
 }
 
-.round, .match-left, .match-right {
-    box-sizing: border-box;
+/* flex-wrap and overflow may not be needed for wrapping if necessary */
+.tournament-bracket {
+    min-height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: visible;
 }
 
-.tournament .round {
-  font-size: 1em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 400px;
-  list-style: none;
-  padding: 0;
+/* Keep all things in column aligned vertical, give some margin around it */
+.column, .match {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 10px;
 }
 
-.match-left {
-  padding-left: 1.5em;
-}
-
-.match-right {
-  padding-right: 1.5em;
-}
-
-.song-bottom {
-  font-size: 1em;
-  border-bottom: 2px solid #aaa;
-}
-
-.song-left {
-  text-align: left;
-  border-right: 2px solid #aaa;
-}
-
-.song-right {
-  text-align: right;
-  border-left: 2px solid #aaa;
-}
-
-.song-top {
-  font-size: 1em;
-  border: none;
-  border-bottom: 2px solid #aaa;
-}
-
-.left-spacer {
-  border-right: 2px solid #aaa;
-  min-height: 40px;
-  padding-right: 1em;
-}
-
-.right-spacer {
-  border-left: 2px solid #aaa;
-  min-height: 40px;
-  padding-left: 1em;
-}
-
-.champion {
+/* Idk if I'm doing this right, but need same column display, flex to get spacing i want */
+.match {
     justify-content: center;
+    margin: 10px;
+}
+
+.team {
+    min-width: 400px; /* width that fits most song and artist combo, i hope  */
+    height: 40px;
+    background-color: #f0f0f0;
+    margin: 2px 0;
+    padding: 5px 10px;
     text-align: center;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    border: 1px solid #aaa;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 1em;
-    margin-right: 1em;
-    font-weight: bold;
+    display: inline-flex; /* inline-flex allows width growth */
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    white-space: nowrap; /* prevents text wrapping */
 }
