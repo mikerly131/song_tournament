@@ -72,6 +72,7 @@ class FilledBracket(Base):
     final_4: Mapped[Optional[list]] = mapped_column(JSON)
     last_2: Mapped[Optional[list]] = mapped_column(JSON)
     champion: Mapped[Optional[list]] = mapped_column(JSON)
+    nane: Mapped[str]
 
     # relationships
     # user: Mapped["User"] = relationship(back_populates="filled_brackets")

@@ -1,3 +1,7 @@
+"""
+Services for CRUD on db for bracket routes / operations
+"""
+
 from data import db_models
 from sqlalchemy.orm import Session
 from sqlalchemy import select
@@ -86,6 +90,41 @@ def get_bracket_data(db: Session, bracket_id: int):
     result = db.execute(query)
     bracket_data = result.scalars().first()
     return bracket_data
+
+
+def handle_stupid_chars(song_attribute: str):
+    song_attribute = song_attribute.replace(
+        "'", "\\'"
+    ).replace(
+        '"', '\\"'
+    ).replace("&", "u0026")
+    return song_attribute
+
+
+# Function to get bracket data for filling out a bracket (might not need for MVP)
+def get_filled_out_bracket(db: Session, bracket_id: int, user_id: int):
+    query = select(db_models.FilledBracket).where(db_models.FilledBracket.id == bracket_id,
+                                                  db_models.FilledBracket.user_id == user_id)
+    result = db.execute(query)
+    bracket_data = result.scalars().first()
+    return bracket_data
+
+
+# Function to create a new tournament bracket in the db
+def create_filled_bracket(db: Session, brkt_id: int, song_list: list,
+                          name: str, user_id: int):
+
+    new_filled_bracket = db_models.FilledBracket(
+        bracket_id=brkt_id,
+        user_id=user_id,
+        bracket_list=song_list,
+        name=name
+    )
+    db.add(new_filled_bracket)
+    db.flush()
+
+    return new_filled_bracket.id
+
 
 # Function to view summary details of all brackets
 def view_brackets():

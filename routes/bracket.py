@@ -2,7 +2,7 @@
 Has routes for creating and viewing brackets
 """
 from fastapi import APIRouter, Request, Depends
-from fastapi.responses import RedirectResponse, HTMLResponse
+from fastapi.responses import RedirectResponse, HTMLResponse, Response
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from data.database import get_db_session
@@ -10,12 +10,19 @@ from services import bracket_svc, auth_svc
 
 
 templates = Jinja2Templates(directory='templates')
+templates.env.filters['handle_stupid_chars'] = bracket_svc.handle_stupid_chars
+
 router = APIRouter()
 
 
 @router.get("/create/bracket")
 async def get_bracket_setup(request: Request, user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
     return templates.TemplateResponse("/brackets/create-bracket.html", {"request": request, "user_id": user_id})
+
+
+@router.get("/view/filled-out-bracket/{bracket_id}")
+async def view_filled_out_bracket(request: Request, bracket_id: int, user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+    return {"Message": "Filled Out Bracket Will Be Here Eventually"}
 
 
 @router.post("/create/bracket")
@@ -43,7 +50,7 @@ async def create_bracket(request: Request, db: Session = Depends(get_db_session)
         form_songs.append(song)
     print(form_songs)
 
-    # create the songs in the database, get back a list of songs dictionaries with song ids
+    # create the songs  in the database, get back a list of songs dictionaries with song ids
     songs = bracket_svc.create_songs(db, form_songs)
 
     # create the song list in the database, get back the song list id
@@ -64,7 +71,6 @@ async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depe
         return None
 
     bracket_data = bracket_svc.get_bracket_data(db, bracket_id)
-
     response_template = f"/brackets/fill-bracket-{bracket_data.pool_size}.html"
 
     return templates.TemplateResponse(response_template, {"request": request, "user_id": user, "bracket": bracket_data})
@@ -84,15 +90,19 @@ async def update_match_semifinal(request: Request, user: int = Depends(auth_svc.
     s_artist = request.query_params.get('artist')
     target = request.query_params.get('target')
 
-    if target == 'semi-final-left-top' or 'semi-final-left-bottom':
+    esc_title = bracket_svc.handle_stupid_chars(s_title)
+    esc_artist = bracket_svc.handle_stupid_chars(s_artist)
+
+    n_target = ''
+    if target == 'semi-final-left-top' or target == 'semi-final-left-bottom':
         n_target = 'finals-top'
-    elif target == 'semi-final-right-top' or 'semi-final-right-bottom':
+    elif target == 'semi-final-right-top' or target == 'semi-final-right-bottom':
         n_target = 'finals-bottom'
 
     html_content = f"""
     <button hx-get="/update_match_final" hx-target="#{n_target}" hx-swap="outerHTML" hx-trigger="click"
             hx-params="id, title, artist, target"
-            hx-vars="id: '{s_id}', title: '{s_title}', artist: '{s_artist}', target: '{n_target}'"
+            hx-vars="id: '{s_id}', title: '{esc_title}' , artist: '{esc_artist}', target: '{n_target}'"
             class="team top" id="{target}">
         <div id="song_{s_id}"> {s_title} - {s_artist}</div>
     </button>
@@ -112,10 +122,13 @@ async def update_match_final(request: Request, user: int = Depends(auth_svc.get_
     s_artist = request.query_params.get('artist')
     target = request.query_params.get('target')
 
+    esc_title = bracket_svc.handle_stupid_chars(s_title)
+    esc_artist = bracket_svc.handle_stupid_chars(s_artist)
+
     html_content = f"""
     <button hx-get="/update_champion" hx-target="#champion-team" hx-swap="innerHTML" hx-trigger="click"
             hx-params="id, title, artist"
-            hx-vars="id: '{s_id}', title: '{s_title}', artist: '{s_artist}'"
+            hx-vars="id: '{s_id}', title: '{esc_title}', artist: '{esc_artist}'"
             class="team top" id="{target}">
         <div id="song_{s_id}"> {s_title} - {s_artist}</div>
     </button>
@@ -137,6 +150,25 @@ async def update_champion(request: Request, user: int = Depends(auth_svc.get_use
     html_content = f"""
     <h3 class="text-center">Champion</h3>
     <div class="team" id="song_{s_id}"> {s_title} - {s_artist}</div>
+    <button hx-post="/save_bracket/{{ bracket_data.id }}" hx-target="none" > Save Bracket </button>
     """
 
     return HTMLResponse(content=html_content)
+
+
+@router.post("/save_bracket/{bracket_id}")
+async def save_bracket(response: Response, bracket_id: int, db: Session = Depends(get_db_session),
+                       user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+
+    if not user:
+        return None
+
+    orig_bracket = bracket_svc.get_bracket_data(db, bracket_id)
+    pool_size = orig_bracket.pool_size
+    seed_list = orig_bracket.seed_list
+    brkt_id = orig_bracket.id
+    brkt_name = orig_bracket.name
+    saved_bracket_id = bracket_svc.create_filled_bracket(db, brkt_id, seed_list, brkt_name, user)
+
+    response.headers['HX-Redirect'] = f'/view/filled-out-bracket/{saved_bracket_id}'
+    return {"success": "Filled out bracket saved"}
