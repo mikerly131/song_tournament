@@ -87,18 +87,6 @@ def get_bracket_data(db: Session, bracket_id: int):
     bracket_data = result.scalars().first()
     return bracket_data
 
-
-# Escape HTML characters in the title, artist of songs
-def escape_html_chars(text: str) -> str:
-
-    return (
-        text.replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-        .replace('"', "&quot;")
-        .replace("'", "&#39;")
-    )
-
 # Function to view summary details of all brackets
 def view_brackets():
     pass

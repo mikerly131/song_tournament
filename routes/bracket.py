@@ -65,10 +65,6 @@ async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depe
 
     bracket_data = bracket_svc.get_bracket_data(db, bracket_id)
 
-    for song in bracket_data.seed_list:
-        song['title'] = bracket_svc.escape_html_chars(song['title'])
-        song['artist'] = bracket_svc.escape_html_chars(song['artist'])
-
     response_template = f"/brackets/fill-bracket-{bracket_data.pool_size}.html"
 
     return templates.TemplateResponse(response_template, {"request": request, "user_id": user, "bracket": bracket_data})
