@@ -80,13 +80,24 @@ def create_new_bracket(db: Session, song_list_id: int, song_list: list,
     return new_bracket.id
 
 
-# Function to get bracket data
+# Function to get bracket data for filling out a bracket
 def get_bracket_data(db: Session, bracket_id: int):
     query = select(db_models.Bracket).where(db_models.Bracket.id == bracket_id)
     result = db.execute(query)
     bracket_data = result.scalars().first()
     return bracket_data
 
+
+# Escape HTML characters in the title, artist of songs
+def escape_html_chars(text: str) -> str:
+
+    return (
+        text.replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+        .replace("'", "&#39;")
+    )
 
 # Function to view summary details of all brackets
 def view_brackets():

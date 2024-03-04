@@ -1,8 +1,8 @@
 """
-Has routes for creating, viewing and filling out brackets
+Has routes for creating and viewing brackets
 """
 from fastapi import APIRouter, Request, Depends
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from data.database import get_db_session
@@ -64,6 +64,83 @@ async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depe
         return None
 
     bracket_data = bracket_svc.get_bracket_data(db, bracket_id)
+
+    for song in bracket_data.seed_list:
+        song['title'] = bracket_svc.escape_html_chars(song['title'])
+        song['artist'] = bracket_svc.escape_html_chars(song['artist'])
+
     response_template = f"/brackets/fill-bracket-{bracket_data.pool_size}.html"
 
     return templates.TemplateResponse(response_template, {"request": request, "user_id": user, "bracket": bracket_data})
+
+
+# Trying out HTMX, idea is to let users click on a team in a match and that updates the next match with the team
+# Broken:  Title and Artist with apostrophes, creating issues
+@router.get("/update_match_semifinal", response_class=HTMLResponse)
+async def update_match_semifinal(request: Request, user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+
+    if not user:
+        return None
+
+    # Start simple, don't worry about cascading changes from previous rounds into later rounds yet.
+    s_id = request.query_params.get('id')
+    s_title = request.query_params.get('title')
+    s_artist = request.query_params.get('artist')
+    target = request.query_params.get('target')
+
+    if target == 'semi-final-left-top' or 'semi-final-left-bottom':
+        n_target = 'finals-top'
+    elif target == 'semi-final-right-top' or 'semi-final-right-bottom':
+        n_target = 'finals-bottom'
+
+    html_content = f"""
+    <button hx-get="/update_match_final" hx-target="#{n_target}" hx-swap="outerHTML" hx-trigger="click"
+            hx-params="id, title, artist, target"
+            hx-vars="id: '{s_id}', title: '{s_title}', artist: '{s_artist}', target: '{n_target}'"
+            class="team top" id="{target}">
+        <div id="song_{s_id}"> {s_title} - {s_artist}</div>
+    </button>
+    """
+
+    return HTMLResponse(content=html_content)
+
+
+@router.get("/update_match_final", response_class=HTMLResponse)
+async def update_match_final(request: Request, user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+
+    if not user:
+        return None
+
+    s_id = request.query_params.get('id')
+    s_title = request.query_params.get('title')
+    s_artist = request.query_params.get('artist')
+    target = request.query_params.get('target')
+
+    html_content = f"""
+    <button hx-get="/update_champion" hx-target="#champion-team" hx-swap="innerHTML" hx-trigger="click"
+            hx-params="id, title, artist"
+            hx-vars="id: '{s_id}', title: '{s_title}', artist: '{s_artist}'"
+            class="team top" id="{target}">
+        <div id="song_{s_id}"> {s_title} - {s_artist}</div>
+    </button>
+    """
+
+    return HTMLResponse(content=html_content)
+
+
+@router.get("/update_champion", response_class=HTMLResponse)
+async def update_champion(request: Request, user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+
+    if not user:
+        return None
+
+    s_id = request.query_params.get('id')
+    s_title = request.query_params.get('title')
+    s_artist = request.query_params.get('artist')
+
+    html_content = f"""
+    <h3 class="text-center">Champion</h3>
+    <div class="team" id="song_{s_id}"> {s_title} - {s_artist}</div>
+    """
+
+    return HTMLResponse(content=html_content)
