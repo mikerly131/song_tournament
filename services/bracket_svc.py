@@ -4,6 +4,7 @@ Services for CRUD on db for bracket routes / operations
 
 from data import db_models
 from sqlalchemy.orm import Session
+from sqlalchemy.orm.attributes import flag_modified
 from sqlalchemy import select
 import random
 
@@ -130,6 +131,8 @@ def save_bracket_data(db: Session, f_brkt_id: int, target: str, song: dict):
 
     f_brkt_data.bracket_dict[target] = song
     db.add(f_brkt_data)
+    flag_modified(f_brkt_data, "bracket_dict")
+    db.flush()
 
     return True
 

@@ -9,7 +9,7 @@ from config import DATABASE_URL
 
 # Setup engine to create connection to DB, connect_args only needed for sqlite dbs otherwise remove it
 # engine = create_engine("sqlite+pysqlite:///./bracket_voter_simple.db", connect_args={"check_same_thread": False})
-engine = create_engine(DATABASE_URL, echo=False)
+engine = create_engine(DATABASE_URL, echo=True)
 
 # Create tables in the DB from Base - all classes(tables) defined in db_models including Base, so only importing Base
 Base.metadata.create_all(engine)
