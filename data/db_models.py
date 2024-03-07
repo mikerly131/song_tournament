@@ -1,7 +1,7 @@
 """
 Setup ORM models with attributes to create/interact with db tables and columns
 
-Relationships commented out while working on simple pydantic models and routes, it complicates things
+Relationships commented out while working on simple routes, it complicates pydantic models
 """
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -65,14 +65,11 @@ class FilledBracket(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     bracket_id: Mapped[int] = mapped_column(ForeignKey('bracket.id'))
     user_id: Mapped[int] = mapped_column(ForeignKey('user.id'))
-    bracket_list: Mapped[list] = mapped_column(JSON)
-    first_32: Mapped[Optional[list]] = mapped_column(JSON)
-    sweet_16: Mapped[Optional[list]] = mapped_column(JSON)
-    elite_8: Mapped[Optional[list]] = mapped_column(JSON)
-    final_4: Mapped[Optional[list]] = mapped_column(JSON)
-    last_2: Mapped[Optional[list]] = mapped_column(JSON)
+    bracket_name: Mapped[str]
+    pool_size: Mapped[int]
+    seed_list: Mapped[list] = mapped_column(JSON)
+    bracket_dict: Mapped[Optional[dict]] = mapped_column(JSON)
     champion: Mapped[Optional[list]] = mapped_column(JSON)
-    nane: Mapped[str]
 
     # relationships
     # user: Mapped["User"] = relationship(back_populates="filled_brackets")

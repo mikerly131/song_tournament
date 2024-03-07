@@ -9,12 +9,10 @@ class FilledBracket(BaseModel):
     id: int
     bracket_id: int
     user_id: int
+    bracket_name: str
+    pool_size: int
+    seed_list: list
     bracket_list: list
-    first_32: Optional[list]
-    sweet_16: Optional[list]
-    elite_8: Optional[list]
-    final_4: Optional[list]
-    last_2: Optional[list]
     champion: Optional[list]
 
 

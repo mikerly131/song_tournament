@@ -101,29 +101,63 @@ def handle_stupid_chars(song_attribute: str):
     return song_attribute
 
 
-# Function to get bracket data for filling out a bracket (might not need for MVP)
+# Function to create tournament bracket to fill out
+def create_filled_bracket(db: Session, brkt_id: int, seed_list: list,
+                          brkt_name: str, pool_size: int, user_id: int):
+
+    new_filled_bracket = db_models.FilledBracket(
+        bracket_id=brkt_id,
+        user_id=user_id,
+        seed_list=seed_list,
+        bracket_name=brkt_name,
+        bracket_dict={},
+        pool_size=pool_size
+    )
+    db.add(new_filled_bracket)
+    db.flush()
+
+    return new_filled_bracket.id
+
+
+# Function to save bracket data in the filled bracket dict (each match winner selection)
+def save_bracket_data(db: Session, f_brkt_id: int, target: str, song: dict):
+    query = select(db_models.FilledBracket).where(db_models.FilledBracket.id == f_brkt_id)
+    result = db.execute(query)
+    f_brkt_data = result.scalars().first()
+
+    if not f_brkt_data:
+        return False
+
+    f_brkt_data.bracket_dict[target] = song
+    db.add(f_brkt_data)
+
+    return True
+
+
+# (Not in use right now) Function to save entire filled out tournament bracket
+# def save_filled_bracket(db: Session, brkt_id: int, seed_list: list,
+#                           brkt_name: str, pool_size: int, user_id: int):
+#
+#     new_filled_bracket = db_models.FilledBracket(
+#         bracket_id=brkt_id,
+#         user_id=user_id,
+#         seed_list=seed_list,
+#         bracket_name=brkt_name,
+#         pool_size=pool_size
+#     )
+#     db.add(new_filled_bracket)
+#     db.flush()
+#
+#     return new_filled_bracket.id
+
+
+# Function to get a filled out tournament bracket by a user
 def get_filled_out_bracket(db: Session, bracket_id: int, user_id: int):
     query = select(db_models.FilledBracket).where(db_models.FilledBracket.id == bracket_id,
                                                   db_models.FilledBracket.user_id == user_id)
     result = db.execute(query)
     bracket_data = result.scalars().first()
     return bracket_data
-
-
-# Function to create a new tournament bracket in the db
-def create_filled_bracket(db: Session, brkt_id: int, song_list: list,
-                          name: str, user_id: int):
-
-    new_filled_bracket = db_models.FilledBracket(
-        bracket_id=brkt_id,
-        user_id=user_id,
-        bracket_list=song_list,
-        name=name
-    )
-    db.add(new_filled_bracket)
-    db.flush()
-
-    return new_filled_bracket.id
 
 
 # Function to view summary details of all brackets
