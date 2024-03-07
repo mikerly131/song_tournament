@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="{{ url_for('static', path='/bracket_styles.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', path='/bracket_styles_64.css') }}" rel="stylesheet">
+    <script src="/static/htmx.min.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -15,76 +16,332 @@
 <div class="row">
     <div class="column">
         <h2>Tournament: {{ bracket.name }} </h2>
-        <h3>Songs: {{ bracket.pool_size }} </h3>
+        <h3>Songs: {{ bracket.pool_size }}  Bracket: {{ f_brkt_name }}</h3>
     </div>
 </div>
 
 <div class="scroll-container">
     <div class="tournament-bracket">
         <div class="column first-64 left">
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[0]['id'] }}">{{ bracket.seed_list[0]['title'] }} - {{ bracket.seed_list[0]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[63]['id'] }}">{{ bracket.seed_list[63]['title'] }} - {{bracket.seed_list[63]['artist'] }}</div>
+            <div class="match" id="first-64-left-top-1">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-top-1" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[0]['id'] }}',
+                                 title: '{{ bracket.seed_list[0]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[0]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-1'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[0]['id'] }}">{{ bracket.seed_list[0]['title'] }} - {{ bracket.seed_list[0]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-top-1" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[63]['id'] }}',
+                                 title: '{{ bracket.seed_list[63]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[63]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-1'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[63]['id'] }}">{{ bracket.seed_list[63]['title'] }} - {{bracket.seed_list[63]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[31]['id'] }}">{{ bracket.seed_list[31]['title'] }} - {{bracket.seed_list[31]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[32]['id'] }}">{{ bracket.seed_list[32]['title'] }} - {{bracket.seed_list[32]['artist'] }}</div>
+            <div class="match" id="first-64-left-top-2">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-1" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[31]['id'] }}',
+                                 title: '{{ bracket.seed_list[31]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[31]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-1'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[31]['id'] }}">{{ bracket.seed_list[31]['title'] }} - {{ bracket.seed_list[31]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-1" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[32]['id'] }}',
+                                 title: '{{ bracket.seed_list[32]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[32]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-1'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[32]['id'] }}">{{ bracket.seed_list[32]['title'] }} - {{bracket.seed_list[32]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[20]['id'] }}">{{ bracket.seed_list[20]['title'] }} - {{ bracket.seed_list[20]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[43]['id'] }}">{{ bracket.seed_list[43]['title'] }} - {{bracket.seed_list[43]['artist'] }}</div>
+            <div class="match" id="first-64-left-top-3">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-top-2" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[20]['id'] }}',
+                                 title: '{{ bracket.seed_list[20]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[20]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-2'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[20]['id'] }}">{{ bracket.seed_list[20]['title'] }} - {{ bracket.seed_list[20]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-top-2" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[43]['id'] }}',
+                                 title: '{{ bracket.seed_list[43]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[43]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-2'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[43]['id'] }}">{{ bracket.seed_list[43]['title'] }} - {{bracket.seed_list[43]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[12]['id'] }}">{{ bracket.seed_list[12]['title'] }} - {{bracket.seed_list[12]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[51]['id'] }}">{{ bracket.seed_list[51]['title'] }} - {{bracket.seed_list[51]['artist'] }}</div>
+            <div class="match" id="first-64-left-top-4">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-2" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[12]['id'] }}',
+                                 title: '{{ bracket.seed_list[12]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[12]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-2'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[12]['id'] }}">{{ bracket.seed_list[12]['title'] }} - {{ bracket.seed_list[12]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-2" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[51]['id'] }}',
+                                 title: '{{ bracket.seed_list[51]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[51]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-2'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[51]['id'] }}">{{ bracket.seed_list[51]['title'] }} - {{bracket.seed_list[51]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[11]['id'] }}">{{ bracket.seed_list[11]['title'] }} - {{ bracket.seed_list[11]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[52]['id'] }}">{{ bracket.seed_list[52]['title'] }} - {{bracket.seed_list[52]['artist'] }}</div>
+            <div class="match" id="first-64-left-top-5">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-top-3" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[11]['id'] }}',
+                                 title: '{{ bracket.seed_list[11]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[11]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-3'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[11]['id'] }}">{{ bracket.seed_list[11]['title'] }} - {{ bracket.seed_list[11]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-top-3" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[52]['id'] }}',
+                                 title: '{{ bracket.seed_list[52]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[52]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-3'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[52]['id'] }}">{{ bracket.seed_list[52]['title'] }} - {{bracket.seed_list[52]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[19]['id'] }}">{{ bracket.seed_list[19]['title'] }} - {{bracket.seed_list[19]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[44]['id'] }}">{{ bracket.seed_list[44]['title'] }} - {{bracket.seed_list[44]['artist'] }}</div>
+            <div class="match" id="first-64-left-top-6">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-3" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[19]['id'] }}',
+                                 title: '{{ bracket.seed_list[19]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[19]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-3'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[19]['id'] }}">{{ bracket.seed_list[19]['title'] }} - {{ bracket.seed_list[19]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-3" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[44]['id'] }}',
+                                 title: '{{ bracket.seed_list[44]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[44]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-3'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[44]['id'] }}">{{ bracket.seed_list[44]['title'] }} - {{bracket.seed_list[44]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[27]['id'] }}">{{ bracket.seed_list[27]['title'] }} - {{ bracket.seed_list[27]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[36]['id'] }}">{{ bracket.seed_list[36]['title'] }} - {{bracket.seed_list[36]['artist'] }}</div>
+            <div class="match" id="first-64-left-top-7">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-top-4" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[27]['id'] }}',
+                                 title: '{{ bracket.seed_list[27]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[27]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-4'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[27]['id'] }}">{{ bracket.seed_list[27]['title'] }} - {{ bracket.seed_list[27]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-top-4" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[36]['id'] }}',
+                                 title: '{{ bracket.seed_list[36]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[36]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-4'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[36]['id'] }}">{{ bracket.seed_list[36]['title'] }} - {{bracket.seed_list[36]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[7]['id'] }}">{{ bracket.seed_list[7]['title'] }} - {{bracket.seed_list[7]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[56]['id'] }}">{{ bracket.seed_list[56]['title'] }} - {{bracket.seed_list[56]['artist'] }}</div>
+            <div class="match" id="first-64-left-top-8">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-4" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[7]['id'] }}',
+                                 title: '{{ bracket.seed_list[7]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[7]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-4'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[7]['id'] }}">{{ bracket.seed_list[7]['title'] }} - {{ bracket.seed_list[7]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-4" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[56]['id'] }}',
+                                 title: '{{ bracket.seed_list[56]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[56]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-4'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[56]['id'] }}">{{ bracket.seed_list[56]['title'] }} - {{bracket.seed_list[56]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[4]['id'] }}">{{ bracket.seed_list[4]['title'] }} - {{ bracket.seed_list[4]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[59]['id'] }}">{{ bracket.seed_list[59]['title'] }} - {{bracket.seed_list[59]['artist'] }}</div>
+            <div class="match" id="first-64-left-bottom-1">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-top-5" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[4]['id'] }}',
+                                 title: '{{ bracket.seed_list[4]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[4]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-5'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[4]['id'] }}">{{ bracket.seed_list[4]['title'] }} - {{ bracket.seed_list[4]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-top-5" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[59]['id'] }}',
+                                 title: '{{ bracket.seed_list[59]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[59]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-5'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[59]['id'] }}">{{ bracket.seed_list[59]['title'] }} - {{bracket.seed_list[59]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[24]['id'] }}">{{ bracket.seed_list[24]['title'] }} - {{bracket.seed_list[24]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[39]['id'] }}">{{ bracket.seed_list[39]['title'] }} - {{bracket.seed_list[39]['artist'] }}</div>
+            <div class="match" id="first-64-left-bottom-2">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-5" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[24]['id'] }}',
+                                 title: '{{ bracket.seed_list[24]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[24]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-5'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[24]['id'] }}">{{ bracket.seed_list[24]['title'] }} - {{ bracket.seed_list[24]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-5" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[39]['id'] }}',
+                                 title: '{{ bracket.seed_list[39]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[39]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-5'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[39]['id'] }}">{{ bracket.seed_list[39]['title'] }} - {{bracket.seed_list[39]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[23]['id'] }}">{{ bracket.seed_list[23]['title'] }} - {{ bracket.seed_list[23]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[40]['id'] }}">{{ bracket.seed_list[40]['title'] }} - {{bracket.seed_list[40]['artist'] }}</div>
+            <div class="match" id="first-64-left-bottom-3">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-top-6" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[23]['id'] }}',
+                                 title: '{{ bracket.seed_list[23]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[23]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-6'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[23]['id'] }}">{{ bracket.seed_list[23]['title'] }} - {{ bracket.seed_list[23]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-top-6" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[40]['id'] }}',
+                                 title: '{{ bracket.seed_list[40]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[40]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-6'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[40]['id'] }}">{{ bracket.seed_list[40]['title'] }} - {{bracket.seed_list[40]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[8]['id'] }}">{{ bracket.seed_list[8]['title'] }} - {{bracket.seed_list[8]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[55]['id'] }}">{{ bracket.seed_list[55]['title'] }} - {{bracket.seed_list[55]['artist'] }}</div>
+            <div class="match" id="first-64-left-bottom-4">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-6" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[8]['id'] }}',
+                                 title: '{{ bracket.seed_list[8]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[8]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-6'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[8]['id'] }}">{{ bracket.seed_list[8]['title'] }} - {{ bracket.seed_list[8]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-6" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[55]['id'] }}',
+                                 title: '{{ bracket.seed_list[55]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[55]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-6'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[55]['id'] }}">{{ bracket.seed_list[55]['title'] }} - {{bracket.seed_list[55]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[15]['id'] }}">{{ bracket.seed_list[15]['title'] }} - {{ bracket.seed_list[15]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[48]['id'] }}">{{ bracket.seed_list[48]['title'] }} - {{bracket.seed_list[48]['artist'] }}</div>
+            <div class="match" id="first-64-left-bottom-5">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-top-7" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[15]['id'] }}',
+                                 title: '{{ bracket.seed_list[15]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[15]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-7'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[15]['id'] }}">{{ bracket.seed_list[15]['title'] }} - {{ bracket.seed_list[15]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-top-7" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[48]['id'] }}',
+                                 title: '{{ bracket.seed_list[48]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[48]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-7'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[48]['id'] }}">{{ bracket.seed_list[48]['title'] }} - {{bracket.seed_list[48]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[16]['id'] }}">{{ bracket.seed_list[16]['title'] }} - {{bracket.seed_list[16]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[47]['id'] }}">{{ bracket.seed_list[47]['title'] }} - {{bracket.seed_list[47]['artist'] }}</div>
+            <div class="match" id="first-64-left-bottom-6">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-7" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[16]['id'] }}',
+                                 title: '{{ bracket.seed_list[16]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[16]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-7'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[16]['id'] }}">{{ bracket.seed_list[16]['title'] }} - {{ bracket.seed_list[16]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-7" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[47]['id'] }}',
+                                 title: '{{ bracket.seed_list[47]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[47]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-7'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[47]['id'] }}">{{ bracket.seed_list[47]['title'] }} - {{bracket.seed_list[47]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[28]['id'] }}">{{ bracket.seed_list[28]['title'] }} - {{ bracket.seed_list[28]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[35]['id'] }}">{{ bracket.seed_list[35]['title'] }} - {{bracket.seed_list[35]['artist'] }}</div>
+            <div class="match" id="first-64-left-bottom-7">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-top-8" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[28]['id'] }}',
+                                 title: '{{ bracket.seed_list[28]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[28]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-8'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[28]['id'] }}">{{ bracket.seed_list[28]['title'] }} - {{ bracket.seed_list[28]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-top-8" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[35]['id'] }}',
+                                 title: '{{ bracket.seed_list[35]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[35]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-top-8'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[35]['id'] }}">{{ bracket.seed_list[35]['title'] }} - {{bracket.seed_list[35]['artist'] }}</div>
+                </button>
             </div>
-            <div class="match">
-                <div class="team top" id="song_{{ bracket.seed_list[3]['id'] }}">{{ bracket.seed_list[3]['title'] }} - {{bracket.seed_list[3]['artist'] }}</div>
-                <div class="team bottom" id="song_{{ bracket.seed_list[60]['id'] }}">{{ bracket.seed_list[60]['title'] }} - {{bracket.seed_list[60]['artist'] }}</div>
+            <div class="match" id="first-64-left-bottom-8">
+                <button hx-get="/update_match_round_32/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-8" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[3]['id'] }}',
+                                 title: '{{ bracket.seed_list[3]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[3]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-8'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[3]['id'] }}">{{ bracket.seed_list[3]['title'] }} - {{ bracket.seed_list[3]['artist'] }}</div>
+                </button>
+                <button hx-get="/update_match_semifinal/{{ f_brkt_id }}" hx-target="#rnd32-left-bottom-8" hx-swap="outerHTML" hx-trigger="click"
+                        hx-params="id, title, artist, target"
+                        hx-vars="id: '{{ bracket.seed_list[60]['id'] }}',
+                                 title: '{{ bracket.seed_list[60]['title'] | handle_stupid_chars }}',
+                                 artist: '{{ bracket.seed_list[60]['artist'] | handle_stupid_chars }}',
+                                 target: 'rnd32-left-bottom-8'"
+                        class="team">
+                    <div id="song_{{ bracket.seed_list[60]['id'] }}">{{ bracket.seed_list[60]['title'] }} - {{bracket.seed_list[60]['artist'] }}</div>
+                </button>
             </div>
         </div>
         <div class="column next-32 left">

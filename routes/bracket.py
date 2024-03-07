@@ -86,8 +86,8 @@ async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depe
 
 # Trying out HTMX, idea is to let users click on a team in a match and that updates the next match with the team
 # Round of 64 match rout to put winners into round of 32 matches
-@router.get("/update_match_round_thirty_two/{f_brkt_id}", response_class=HTMLResponse)
-async def update_match_round_thirty_two(request: Request, f_brkt_id: int, db: Session = Depends(get_db_session),
+@router.get("/update_match_round_32/{f_brkt_id}", response_class=HTMLResponse)
+async def update_match_round_32(request: Request, f_brkt_id: int, db: Session = Depends(get_db_session),
                                         user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
 
     if not user:
