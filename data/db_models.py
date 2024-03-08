@@ -68,7 +68,7 @@ class FilledBracket(Base):
     bracket_name: Mapped[str]
     pool_size: Mapped[int]
     seed_list: Mapped[list] = mapped_column(JSON)
-    bracket_dict: Mapped[Optional[dict]] = mapped_column(JSON)
+    bracket_dict: Mapped[Optional[dict]] = mapped_column(JSON, default={})
 
     # relationships
     # user: Mapped["User"] = relationship(back_populates="filled_brackets")
