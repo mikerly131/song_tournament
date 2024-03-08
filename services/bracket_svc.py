@@ -2,7 +2,7 @@
 Services for CRUD on db for bracket routes / operations
 """
 
-from data import db_models
+from data import db_models, targets
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.attributes import flag_modified
 from sqlalchemy import select, func, outerjoin
@@ -119,7 +119,13 @@ def create_filled_bracket(db: Session, brkt_id: int, seed_list: list,
     return new_filled_bracket.id
 
 
-# Function to save bracket data in the filled bracket dict (each match winner selection)
+# Get location in next round for selected winner
+def get_target_location(prev_target: str) -> str:
+    next_target = targets.locations.get(prev_target)
+    return next_target
+
+
+# Save bracket data in the filled bracket dict (each match winner selection)
 def save_bracket_data(db: Session, f_brkt_id: int, target: str, song: dict):
     query = select(db_models.FilledBracket).where(db_models.FilledBracket.id == f_brkt_id)
     result = db.execute(query)
