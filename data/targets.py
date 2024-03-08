@@ -58,5 +58,7 @@ locations = {
     'semi-final-left-top': 'finals-top',
     'semi-final-left-bottom': 'finals-top',
     'semi-final-right-top': 'finals-bottom',
-    'semi-final-right-bottom': 'finals-bottom'
+    'semi-final-right-bottom': 'finals-bottom',
+    'finals-top': 'champion-team',
+    'finals-bottom': 'champion-team'
 }
