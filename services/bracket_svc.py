@@ -5,7 +5,7 @@ Services for CRUD on db for bracket routes / operations
 from data import db_models
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.attributes import flag_modified
-from sqlalchemy import select
+from sqlalchemy import select, func, outerjoin
 import random
 
 
@@ -111,7 +111,6 @@ def create_filled_bracket(db: Session, brkt_id: int, seed_list: list,
         user_id=user_id,
         seed_list=seed_list,
         bracket_name=brkt_name,
-        bracket_dict={},
         pool_size=pool_size
     )
     db.add(new_filled_bracket)
@@ -164,8 +163,17 @@ def get_filled_out_bracket(db: Session, bracket_id: int, user_id: int):
 
 
 # Function to view summary details of all brackets
-def view_brackets():
-    pass
+# add .offset(offset) and offset = 10 if enabling caching at some point
+# might need to add a limit at some point, like .limit(100) or something
+def view_tournaments(db: Session):
+    query = (select(db_models.Bracket.id, db_models.Bracket.pool_size, db_models.Bracket.name,
+                    func.count(db_models.FilledBracket.id).label('fill_count'))
+             .outerjoin(db_models.FilledBracket, db_models.Bracket.id == db_models.FilledBracket.bracket_id)
+             .group_by(db_models.Bracket.id)
+             .order_by(func.count(db_models.FilledBracket.id).desc()))
+    result = db.execute(query)
+    tournaments = result.all()
+    return tournaments
 
 
 # Function to view a single filled out bracket

@@ -57,8 +57,21 @@ async def create_bracket(request: Request, db: Session = Depends(get_db_session)
     return RedirectResponse(url=f"/fill-out/bracket/{bracket_id}", status_code=303)
 
 
+@router.get("/view/tournaments")
+async def view_tournaments(request: Request, db: Session = Depends(get_db_session),
+                           user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+
+    if not user_id:
+        return None
+
+    tournaments = bracket_svc.view_tournaments(db)
+    return templates.TemplateResponse('/view_tournaments.html', {"request": request, "user_id": user_id,
+                                                                 "tournaments": tournaments})
+
+
 @router.get("/view/filled-out-bracket/{bracket_id}")
-async def view_filled_out_bracket(request: Request, bracket_id: int, user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+async def view_filled_out_bracket(request: Request, bracket_id: int, db: Session = Depends(get_db_session),
+                                  user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
     return {"Message": "Filled Out Bracket Will Be Here Eventually"}
 
 
