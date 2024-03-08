@@ -85,7 +85,7 @@ def create_new_bracket(db: Session, song_list_id: int, song_list: list,
     return new_bracket.id
 
 
-# Function to get bracket data for filling out a bracket
+# Get tournament bracket data for filling out a bracket
 def get_bracket_data(db: Session, bracket_id: int):
     query = select(db_models.Bracket).where(db_models.Bracket.id == bracket_id)
     result = db.execute(query)
@@ -93,6 +93,7 @@ def get_bracket_data(db: Session, bracket_id: int):
     return bracket_data
 
 
+# Escape stupid characters in songs and artists so it doesn't break html/htmx
 def handle_stupid_chars(song_attribute: str):
     song_attribute = song_attribute.replace(
         "'", "\\'"
@@ -102,7 +103,7 @@ def handle_stupid_chars(song_attribute: str):
     return song_attribute
 
 
-# Function to create tournament bracket to fill out
+# Creates a bracket based on an initial tournament bracket
 def create_filled_bracket(db: Session, brkt_id: int, seed_list: list,
                           brkt_name: str, pool_size: int, user_id: int):
 
@@ -159,8 +160,8 @@ def save_bracket_data(db: Session, f_brkt_id: int, target: str, song: dict):
 #     return new_filled_bracket.id
 
 
-# Function to get a filled out tournament bracket by a user
-def get_filled_out_bracket(db: Session, bracket_id: int, user_id: int):
+# Gat a filled out bracket by a user for a tournament
+def get_my_filled_out_bracket(db: Session, bracket_id: int, user_id: int):
     query = select(db_models.FilledBracket).where(db_models.FilledBracket.id == bracket_id,
                                                   db_models.FilledBracket.user_id == user_id)
     result = db.execute(query)
@@ -182,9 +183,30 @@ def view_tournaments(db: Session):
     return tournaments
 
 
-# Function to view a single filled out bracket
-def view_bracket():
-    pass
+# Get the filled out brackets for a tournament
+def get_f_bracket_data(db: Session, bracket_id: int):
+    query = (select(db_models.FilledBracket, db_models.User.username)
+             .join_from(db_models.FilledBracket, db_models.User, db_models.FilledBracket.user_id == db_models.User.id)
+             .where(db_models.FilledBracket.bracket_id == bracket_id))
+    result = db.execute(query)
+    filled_brackets = []
+    for fb, username in result.all():
+        filled_bracket_data = fb.__dict__
+        filled_bracket_data['username'] = username  # Append username to the filled bracket data
+        filled_brackets.append(filled_bracket_data)
+
+    return filled_brackets
+
+
+# Get a single filled out bracket for a tournament
+def view_single_f_bracket_(db: Session, f_brkt_id: int):
+    query = select(db_models.FilledBracket).where(db_models.FilledBracket.id == f_brkt_id)
+    result = db.execute(query)
+    single_f_bracket = result.scalars().first()
+    return single_f_bracket
+
+
+
 
 
 

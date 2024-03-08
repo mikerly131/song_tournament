@@ -74,20 +74,34 @@ async def view_tournaments(request: Request, db: Session = Depends(get_db_sessio
 
 # For viewing all the filled out brackets for a given tournament
 @router.get("/view/tournament/{bracket_id}/filled-out-brackets")
-async def view_tournament_brackets(request: Request, db: Session = Depends(get_db_session),
-                           user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+async def view_tournament_brackets(request: Request, bracket_id: int, db: Session = Depends(get_db_session),
+                                   user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
 
     if not user_id:
         return None
 
-    return {"Message": "Filled Out Brackets For Tournament Page"}
+    filled_brackets = bracket_svc.get_f_bracket_data(db, bracket_id)
+    if filled_brackets:
+        bracket_name = filled_brackets[0]['bracket_name']
+    else:
+        bracket_name = "No Brackets Yet"
+
+    return templates.TemplateResponse('/view_tournament_brackets.html', {"request": request, "user_id": user_id,
+                                                                         "filled_brackets": filled_brackets,
+                                                                         "bracket_name": bracket_name})
 
 
 # For viewing a single bracket filled out for a tournament
-@router.get("/view/filled-out-bracket/{bracket_id}")
-async def view_filled_out_bracket(request: Request, bracket_id: int, db: Session = Depends(get_db_session),
+@router.get("/view/tournament/{bracket_id}/filled-out-bracket/{f_brkt_id}")
+async def view_filled_out_bracket(request: Request, f_brkt_id: int, db: Session = Depends(get_db_session),
                                   user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
-    return {"Message": "A Single Filled Out Bracket Page"}
+
+    if not user_id:
+        return None
+
+    single_f_bracket = bracket_svc.view_single_f_bracket_(db, f_brkt_id)
+    return templates.TemplateResponse('/view_tournament_brackets.html', {"request": request, "user_id": user_id,
+                                                                         "bracket": single_f_bracket})
 
 
 # For getting a bracket to fill out for a tournament

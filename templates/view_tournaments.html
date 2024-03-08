@@ -22,6 +22,7 @@
                     <p class="fs-4 p-0 m-0">Songs: {{ tournament.pool_size }}</p>
                     <p class="fs-4 p-0 mt-0 mb-2">Bracket Count: {{ tournament.fill_count }}</p>
                     <a class="btn btn-secondary" href="/fill-out/bracket/{{ tournament.id }}" role="button">Fill Out Bracket</a>
+                    <a class="btn btn-secondary" href="/view/tournament/{{ tournament.id }}/filled-out-brackets" role="button">See Other Brackets</a>
                 </div>
             </div>
             {% endfor %}
