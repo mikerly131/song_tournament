@@ -74,7 +74,7 @@ async def view_tournaments(request: Request, db: Session = Depends(get_db_sessio
 
 # For viewing all the filled out brackets for a given tournament
 @router.get("/view/tournament/{bracket_id}/filled-out-brackets")
-async def view_tournament_brackets(request: Request, bracket_id: int, db: Session = Depends(get_db_session),
+async def view_tournament_brackets(request: Request, bracket_id: int, tournament_name: str, db: Session = Depends(get_db_session),
                                    user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
 
     if not user_id:
@@ -82,7 +82,7 @@ async def view_tournament_brackets(request: Request, bracket_id: int, db: Sessio
 
     filled_brackets = bracket_svc.get_f_bracket_data(db, bracket_id)
     if filled_brackets:
-        bracket_name = filled_brackets[0]['bracket_name']
+        bracket_name = tournament_name
     else:
         bracket_name = "No Brackets Yet"
 
