@@ -62,6 +62,13 @@ async def login_account(request: Request, db: Session = Depends(get_db_session))
 
     return resp
 
+
+@router.get("/logout/account")
+async def logout_account():
+    response = RedirectResponse(url='/', status_code=status.HTTP_302_FOUND)
+    auth_svc.logout(response)
+    return response
+
 # Uncomment below when ready to setup user profile template and routes
 
 # @router.get("/account/{user}/my_song_lists")
@@ -70,9 +77,9 @@ async def login_account(request: Request, db: Session = Depends(get_db_session))
 #     return {"message": song_lists}
 #
 #
-# @router.get("/account/{user}/my_created_brackets")
-# async def get_account_brackets(user: int):
-#     user_brackets = f"The {user} created brackets"
+# @router.get("/account/{user}/my_tournaments")
+# async def get_account_tournaments(user: int):
+#     user_brackets = f"The {user} created tournaments"
 #     return {"message": user_brackets}
 #
 #

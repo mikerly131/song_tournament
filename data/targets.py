@@ -1,3 +1,7 @@
+"""
+Dictionary to map the winner of each match to its match in the next round
+"""
+
 locations = {
     'rnd32-left-top-1': 'swt-left-top-1',
     'rnd32-left-bottom-1': 'swt-left-top-1',

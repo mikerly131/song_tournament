@@ -15,11 +15,13 @@ templates.env.filters['handle_stupid_chars'] = bracket_svc.handle_stupid_chars
 router = APIRouter()
 
 
+# For creating a new tournament - get form for name, size, seeding type, list of songs to seed
 @router.get("/create/bracket")
 async def get_bracket_setup(request: Request, user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
     return templates.TemplateResponse("/brackets/create-bracket.html", {"request": request, "user_id": user_id})
 
 
+# For creating a new tournament - post form with name, size, seeding type, list of songs to seed
 @router.post("/create/bracket")
 async def create_bracket(request: Request, db: Session = Depends(get_db_session),
                          user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
@@ -57,6 +59,7 @@ async def create_bracket(request: Request, db: Session = Depends(get_db_session)
     return RedirectResponse(url=f"/fill-out/bracket/{bracket_id}", status_code=303)
 
 
+# For viewing all tournaments that have been created
 @router.get("/view/tournaments")
 async def view_tournaments(request: Request, db: Session = Depends(get_db_session),
                            user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
@@ -69,12 +72,25 @@ async def view_tournaments(request: Request, db: Session = Depends(get_db_sessio
                                                                  "tournaments": tournaments})
 
 
+# For viewing all the filled out brackets for a given tournament
+@router.get("/view/tournament/{bracket_id}/filled-out-brackets")
+async def view_tournament_brackets(request: Request, db: Session = Depends(get_db_session),
+                           user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
+
+    if not user_id:
+        return None
+
+    return {"Message": "Filled Out Brackets For Tournament Page"}
+
+
+# For viewing a single bracket filled out for a tournament
 @router.get("/view/filled-out-bracket/{bracket_id}")
 async def view_filled_out_bracket(request: Request, bracket_id: int, db: Session = Depends(get_db_session),
                                   user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
-    return {"Message": "Filled Out Bracket Will Be Here Eventually"}
+    return {"Message": "A Single Filled Out Bracket Page"}
 
 
+# For getting a bracket to fill out for a tournament
 @router.get("/fill-out/bracket/{bracket_id}")
 async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depends(get_db_session),
                            user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
@@ -97,9 +113,7 @@ async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depe
                                                           "f_brkt_name": brkt_name})
 
 
-# Trying out HTMX, idea is to let users click on a team in a match and that updates the next match with the team
-# Round of 64 match rout to put winners into round of 32 matches
-# Re-factor, can I do it all from one route?  Is this actually better or not?
+# For updating the next match in the tournament with the selected team from the previous match
 @router.post("/update_match/{f_brkt_id}", response_class=HTMLResponse)
 async def update_match(request: Request, f_brkt_id: int, db: Session = Depends(get_db_session),
                                         user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
@@ -144,179 +158,7 @@ async def update_match(request: Request, f_brkt_id: int, db: Session = Depends(g
     return HTMLResponse(content=html_content)
 
 
-# # Round of 32 match route to put winners into sweet round match
-# @router.get("/update_match_sweet/{f_brkt_id}", response_class=HTMLResponse)
-# async def update_match_sweet(request: Request, f_brkt_id: int, db: Session = Depends(get_db_session),
-#                              user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
-#
-#     if not user:
-#         return None
-#
-#     # Start simple, don't worry about cascading changes from previous rounds into later rounds yet.
-#     s_id = request.query_params.get('id')
-#     s_title = request.query_params.get('title')
-#     s_artist = request.query_params.get('artist')
-#     target = request.query_params.get('target')
-#     a_song = {"song_id": s_id, "title": s_title, "artist": s_artist}
-#
-#     update_bracket_winners = bracket_svc.save_bracket_data(db, f_brkt_id, target, a_song)
-#
-#     if update_bracket_winners is False:
-#         return None
-#
-#     esc_title = bracket_svc.handle_stupid_chars(s_title)
-#     esc_artist = bracket_svc.handle_stupid_chars(s_artist)
-#
-#     n_target = bracket_svc.get_target_location(target)
-#
-#     html_content = f"""
-#     <button hx-get="/update_match_elite/{f_brkt_id}" hx-target="#{n_target}" hx-swap="outerHTML" hx-trigger="click"
-#             hx-params="id, title, artist, target"
-#             hx-vars="id: '{s_id}', title: '{esc_title}' , artist: '{esc_artist}', target: '{n_target}'"
-#             class="team" id="{target}">
-#         <div id="song_{s_id}"> {s_title} - {s_artist}</div>
-#     </button>
-#     """
-#
-#     return HTMLResponse(content=html_content)
-
-
-# Sweet match route to put winner into elite round match
-# @router.get("/update_match_elite/{f_brkt_id}", response_class=HTMLResponse)
-# async def update_match_elite(request: Request, f_brkt_id: int, db: Session = Depends(get_db_session),
-#                              user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
-#
-#     if not user:
-#         return None
-#
-#     # Start simple, don't worry about cascading changes from previous rounds into later rounds yet.
-#     s_id = request.query_params.get('id')
-#     s_title = request.query_params.get('title')
-#     s_artist = request.query_params.get('artist')
-#     target = request.query_params.get('target')
-#     a_song = {"song_id": s_id, "title": s_title, "artist": s_artist}
-#
-#     update_bracket_winners = bracket_svc.save_bracket_data(db, f_brkt_id, target, a_song)
-#
-#     if update_bracket_winners is False:
-#         return None
-#
-#     esc_title = bracket_svc.handle_stupid_chars(s_title)
-#     esc_artist = bracket_svc.handle_stupid_chars(s_artist)
-#
-#     n_target = bracket_svc.get_target_location(target)
-#
-#     html_content = f"""
-#     <button hx-get="/update_match_semifinal/{f_brkt_id}" hx-target="#{n_target}" hx-swap="outerHTML" hx-trigger="click"
-#             hx-params="id, title, artist, target"
-#             hx-vars="id: '{s_id}', title: '{esc_title}' , artist: '{esc_artist}', target: '{n_target}'"
-#             class="team" id="{target}">
-#         <div id="song_{s_id}"> {s_title} - {s_artist}</div>
-#     </button>
-#     """
-#
-#     return HTMLResponse(content=html_content)
-
-
-# Elite match route to put winners into semi-final round match
-# @router.get("/update_match_semifinal/{f_brkt_id}", response_class=HTMLResponse)
-# async def update_match_semifinal(request: Request, f_brkt_id: int, db: Session = Depends(get_db_session),
-#                                  user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
-#
-#     if not user:
-#         return None
-#
-#     # Start simple, don't worry about cascading changes from previous rounds into later rounds yet.
-#     s_id = request.query_params.get('id')
-#     s_title = request.query_params.get('title')
-#     s_artist = request.query_params.get('artist')
-#     target = request.query_params.get('target')
-#     a_song = {"song_id": s_id, "title": s_title, "artist": s_artist}
-#
-#     update_bracket_winners = bracket_svc.save_bracket_data(db, f_brkt_id, target, a_song)
-#
-#     if update_bracket_winners is False:
-#         return None
-#
-#     esc_title = bracket_svc.handle_stupid_chars(s_title)
-#     esc_artist = bracket_svc.handle_stupid_chars(s_artist)
-#
-#     n_target = bracket_svc.get_target_location(target)
-#
-#     html_content = f"""
-#     <button hx-get="/update_match_final/{f_brkt_id}" hx-target="#{n_target}" hx-swap="outerHTML" hx-trigger="click"
-#             hx-params="id, title, artist, target"
-#             hx-vars="id: '{s_id}', title: '{esc_title}' , artist: '{esc_artist}', target: '{n_target}'"
-#             class="team" id="{target}">
-#         <div id="song_{s_id}"> {s_title} - {s_artist}</div>
-#     </button>
-#     """
-#
-#     return HTMLResponse(content=html_content)
-
-
-# # Semi-final match route to put winners into finals round match
-# @router.get("/update_match_final/{f_brkt_id}", response_class=HTMLResponse)
-# async def update_match_final(request: Request, f_brkt_id: int, db: Session = Depends(get_db_session),
-#                              user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
-#
-#     if not user:
-#         return None
-#
-#     s_id = request.query_params.get('id')
-#     s_title = request.query_params.get('title')
-#     s_artist = request.query_params.get('artist')
-#     target = request.query_params.get('target')
-#     a_song = {"song_id": s_id, "title": s_title, "artist": s_artist}
-#
-#     update_bracket_winners = bracket_svc.save_bracket_data(db, f_brkt_id, target, a_song)
-#
-#     if update_bracket_winners is False:
-#         return None
-#
-#     esc_title = bracket_svc.handle_stupid_chars(s_title)
-#     esc_artist = bracket_svc.handle_stupid_chars(s_artist)
-#
-#     html_content = f"""
-#     <button hx-get="/update_champion/{f_brkt_id}" hx-target="#champion-team" hx-swap="outerHTML" hx-trigger="click"
-#             hx-params="id, title, artist"
-#             hx-vars="id: '{s_id}', title: '{esc_title}', artist: '{esc_artist}'"
-#             class="team" id="{target}">
-#         <div id="song_{s_id}"> {s_title} - {s_artist}</div>
-#     </button>
-#     """
-#
-#     return HTMLResponse(content=html_content)
-
-
-# Finals match route to put winner into champion
-# @router.get("/update_champion/{f_brkt_id}", response_class=HTMLResponse)
-# async def update_champion(request: Request, f_brkt_id: int, db: Session = Depends(get_db_session),
-#                           user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
-#
-#     if not user:
-#         return None
-#
-#     s_id = request.query_params.get('id')
-#     s_title = request.query_params.get('title')
-#     s_artist = request.query_params.get('artist')
-#     target = "champion-team"
-#     a_song = {"song_id": s_id, "title": s_title, "artist": s_artist}
-#
-#     update_bracket_winners = bracket_svc.save_bracket_data(db, f_brkt_id, target, a_song)
-#
-#     if update_bracket_winners is False:
-#         return None
-#
-#     html_content = f"""
-#     <div class="team" id="champion-team">
-#         <div id="song_{s_id}">{s_title} - {s_artist}</div>
-#     </div>
-#     """
-#
-#     return HTMLResponse(content=html_content)
-
-
+# (Not using right now, just saving after each selection)
 # @router.post("/save_bracket/{bracket_id}")
 # async def save_bracket(response: Response, bracket_id: int, db: Session = Depends(get_db_session),
 #                        user: int = Depends(auth_svc.get_user_id_via_auth_cookie)):

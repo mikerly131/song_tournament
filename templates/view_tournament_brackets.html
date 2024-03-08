@@ -12,16 +12,14 @@
     {% include 'header.html' %}
 
     <div class="container-fluid text-center h-100">
-        <h1 class="mt-4">Tournaments</h1>
-        {% for x in range(0, tournaments|length, 3) %}
+        <h1 class="mt-4">Bracket For: tournament name here</h1>
+        {% for x in range(0, filled_brackets|length, 3) %}
         <div class="row px-4 py-4">
-            {% for tournament in tournaments[x:x+3] %}
+            {% for bracket in filled_brackets[x:x+3] %}
             <div class="col-4 justify-content-center px-4 py-3">
                 <div class="card">
-                    <p class="fs-2 mb-1">{{ tournament.name }}</p>
-                    <p class="fs-4 p-0 m-0">Songs: {{ tournament.pool_size }}</p>
-                    <p class="fs-4 p-0 mt-0 mb-2">Bracket Count: {{ tournament.fill_count }}</p>
-                    <a class="btn btn-secondary" href="/fill-out/bracket/{{ tournament.id }}" role="button">Fill Out Bracket</a>
+                    <p class="fs-2 mb-1">{{ filled_brackets.user_name }}</p>
+                    <a class="btn btn-secondary" href="/view/filled-out-bracket/{{ filled_brackets.id }}" role="button">View Bracket</a>
                 </div>
             </div>
             {% endfor %}

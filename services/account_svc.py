@@ -1,3 +1,6 @@
+"""
+Services for accounts to be created, login and logout. Maybe combine with auth services.
+"""
 from data.db_models import User
 from sqlalchemy.orm import Session
 from passlib.handlers.sha2_crypt import sha512_crypt as crypto
