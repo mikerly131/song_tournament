@@ -186,13 +186,21 @@ def view_tournaments(db: Session):
 # Get the filled out brackets for a tournament
 def get_f_bracket_data(db: Session, bracket_id: int):
     query = (select(db_models.FilledBracket, db_models.User.username)
-             .join_from(db_models.FilledBracket, db_models.User, db_models.FilledBracket.user_id == db_models.User.id)
+             .join(db_models.User, db_models.FilledBracket.user_id == db_models.User.id)
              .where(db_models.FilledBracket.bracket_id == bracket_id))
     result = db.execute(query)
     filled_brackets = []
     for fb, username in result.all():
-        filled_bracket_data = fb.__dict__
-        filled_bracket_data['username'] = username  # Append username to the filled bracket data
+        filled_bracket_data = {
+            'id': fb.id,
+            'bracket_id': fb.bracket_id,
+            'user_id': fb.user_id,
+            'bracket_name': fb.bracket_name,
+            'pool_size': fb.pool_size,
+            'seed_list': fb.seed_list,
+            'bracket_dict': fb.bracket_dict,
+            'username': username
+        }
         filled_brackets.append(filled_bracket_data)
 
     return filled_brackets
