@@ -92,16 +92,19 @@ async def view_tournament_brackets(request: Request, bracket_id: int, tournament
 
 
 # For viewing a single bracket filled out for a tournament
-@router.get("/view/tournament/{bracket_id}/filled-out-bracket/{f_brkt_id}")
-async def view_filled_out_bracket(request: Request, f_brkt_id: int, db: Session = Depends(get_db_session),
+@router.get("/view/tournament/{bracket_name}/filled-out-bracket/{f_brkt_id}")
+async def view_filled_out_bracket(request: Request, f_brkt_id: int, bracket_name: str, db: Session = Depends(get_db_session),
                                   user_id: int = Depends(auth_svc.get_user_id_via_auth_cookie)):
 
     if not user_id:
         return None
 
     single_f_bracket = bracket_svc.view_single_f_bracket_(db, f_brkt_id)
-    return templates.TemplateResponse('/view_tournament_brackets.html', {"request": request, "user_id": user_id,
-                                                                         "bracket": single_f_bracket})
+    b_size = single_f_bracket['pool_size']
+    tournament_name = bracket_name
+
+    return templates.TemplateResponse(f'/brackets/view-bracket-{b_size}.html', {"request": request, "user_id": user_id,
+                                                                                "bracket": single_f_bracket, "tournament_name": tournament_name})
 
 
 # For getting a bracket to fill out for a tournament
@@ -112,18 +115,18 @@ async def fill_out_bracket(request: Request, bracket_id: int, db: Session = Depe
     if not user:
         return None
 
-    bracket_data = bracket_svc.get_bracket_data(db, bracket_id)
+    tournament_data = bracket_svc.get_tournament_data(db, bracket_id)
 
-    pool_size = bracket_data.pool_size
-    seed_list = bracket_data.seed_list
-    brkt_id = bracket_data.id
-    brkt_name = f'My Bracket For: {bracket_data.name}'
+    pool_size = tournament_data.pool_size
+    seed_list = tournament_data.seed_list
+    brkt_id = tournament_data.id
+    brkt_name = f'My Bracket For: {tournament_data.name}'
     saved_bracket_id = bracket_svc.create_filled_bracket(db, brkt_id, seed_list, brkt_name, pool_size, user)
 
-    response_template = f"/brackets/fill-bracket-{bracket_data.pool_size}.html"
+    response_template = f"/brackets/fill-bracket-{tournament_data.pool_size}.html"
 
     return templates.TemplateResponse(response_template, {"request": request, "user_id": user,
-                                                          "bracket": bracket_data, "f_brkt_id": saved_bracket_id,
+                                                          "bracket": tournament_data, "f_brkt_id": saved_bracket_id,
                                                           "f_brkt_name": brkt_name})
 
 

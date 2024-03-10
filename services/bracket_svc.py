@@ -1,7 +1,6 @@
 """
 Services for CRUD on db for bracket routes / operations
 """
-
 from data import db_models, targets
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.attributes import flag_modified
@@ -86,11 +85,11 @@ def create_new_bracket(db: Session, song_list_id: int, song_list: list,
 
 
 # Get tournament bracket data for filling out a bracket
-def get_bracket_data(db: Session, bracket_id: int):
+def get_tournament_data(db: Session, bracket_id: int):
     query = select(db_models.Bracket).where(db_models.Bracket.id == bracket_id)
     result = db.execute(query)
-    bracket_data = result.scalars().first()
-    return bracket_data
+    tournament_data = result.scalars().first()
+    return tournament_data
 
 
 # Escape stupid characters in songs and artists so it doesn't break html/htmx
@@ -185,20 +184,17 @@ def view_tournaments(db: Session):
 
 # Get the filled out brackets for a tournament
 def get_f_bracket_data(db: Session, bracket_id: int):
-    query = (select(db_models.FilledBracket, db_models.User.username)
+    query = (select(db_models.FilledBracket.id, db_models.FilledBracket.bracket_id, db_models.FilledBracket.user_id,
+                    db_models.User.username)
              .join(db_models.User, db_models.FilledBracket.user_id == db_models.User.id)
              .where(db_models.FilledBracket.bracket_id == bracket_id))
     result = db.execute(query)
     filled_brackets = []
-    for fb, username in result.all():
+    for fb_id, fb_bracket_id, fb_user_id, username in result.all():
         filled_bracket_data = {
-            'id': fb.id,
-            'bracket_id': fb.bracket_id,
-            'user_id': fb.user_id,
-            'bracket_name': fb.bracket_name,
-            'pool_size': fb.pool_size,
-            'seed_list': fb.seed_list,
-            'bracket_dict': fb.bracket_dict,
+            'id': fb_id,
+            'bracket_id': fb_bracket_id,
+            'user_id': fb_user_id,
             'username': username
         }
         filled_brackets.append(filled_bracket_data)
@@ -208,9 +204,22 @@ def get_f_bracket_data(db: Session, bracket_id: int):
 
 # Get a single filled out bracket for a tournament
 def view_single_f_bracket_(db: Session, f_brkt_id: int):
-    query = select(db_models.FilledBracket).where(db_models.FilledBracket.id == f_brkt_id)
+    query = (select(db_models.FilledBracket, db_models.User.username)
+             .join(db_models.User, db_models.FilledBracket.user_id == db_models.User.id)
+             .where(db_models.FilledBracket.id == f_brkt_id))
     result = db.execute(query)
-    single_f_bracket = result.scalars().first()
+    fb, username = result.first()
+    single_f_bracket = {
+            'id': fb.id,
+            'bracket_id': fb.bracket_id,
+            'user_id': fb.user_id,
+            'bracket_name': fb.bracket_name,
+            'pool_size': fb.pool_size,
+            'seed_list': fb.seed_list,
+            'bracket_dict': fb.bracket_dict,
+            'username': username
+        }
+
     return single_f_bracket
 
 

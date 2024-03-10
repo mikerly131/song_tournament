@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name ="viewport" content="width=device-width, initial-scale=1">
+    <title>Song Tournament - View Only 8 Song Bracket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="{{ url_for('static', path='/bracket_styles.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='/bracket_styles_8.css') }}" rel="stylesheet">
+    <script src="/static/htmx.min.js"></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+{% include 'header.html' %}
+
+<div class="row">
+    <div class="column">
+        <h2>Tournament: {{ bracket.name }} </h2>
+        <div class="grid gap-0">
+            <div class="fs-3 p-2 g-col-12 text-secondary text-center">Songs: {{ bracket.pool_size }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="scroll-container">
+    <div class="tournament-bracket">
+        <div class="column elite-8 left">
+            <div class="match" id="elite-8-left-top">
+                <div class="team" id="elite-left-top-1"></div>
+                <div class="team" id="elite-left-bottom-1"></div>
+            </div>
+            <div class="match" id="elite-8-left-bottom">
+                <div class="team" id="elite-left-top-2"></div>
+                <div class="team" id="elite-left-bottom-2"></div>
+            </div>
+        </div>
+        <div class="column semi-finals left">
+            <div class="match" id="semi-final-left">
+                <div class="team" id="semi-final-left-top"></div>
+                <div class="team" id="semi-final-left-bottom"></div>
+            </div>
+        </div>
+        <div class="column finals">
+            <div class="match row" id="finals">
+                <h3 class="text-center">Finals</h3>
+                <div class="team top" id="finals-top"></div>
+                <div class="team bottom" id="finals-bottom"></div>
+            </div>
+            <div class="champion row">
+                <h3 class="text-center">Champion</h3>
+                <div class="team" id="champion-team"></div>
+            </div>
+        </div>
+        <div class="column semi-finals right">
+            <div class="match" id="semi-final-right">
+                <div class="team top" id="semi-final-right-top"></div>
+                <div class="team bottom" id="semi-final-right-bottom"></div>
+            </div>
+        </div>
+        <div class="column elite-8 right">
+            <div class="match" id="elite-8-right-top">
+                <div class="team" id="elite-right-top-1"></div>
+                <div class="team" id="elite-right-bottom-1"></div>
+            </div>
+            <div class="match" id="elite-8-right-bottom">
+                <div class="team" id="elite-right-top-2"></div>
+                <div class="team" id="elite-right-bottom-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+
+<form id="save-bracket-form" hidden>
+
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+</body>
+</html>

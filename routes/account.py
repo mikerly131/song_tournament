@@ -71,19 +71,19 @@ async def logout_account():
 
 # Uncomment below when ready to setup user profile template and routes
 
-# @router.get("/account/{user}/my_song_lists")
+# @router.get("/view/account/{user}/my_song_lists")
 # async def get_account_song_lists(user: int):
 #     song_lists = f"The {user} created song lists"
 #     return {"message": song_lists}
 #
 #
-# @router.get("/account/{user}/my_tournaments")
+# @router.get("/view/account/{user}/my_tournaments")
 # async def get_account_tournaments(user: int):
 #     user_brackets = f"The {user} created tournaments"
 #     return {"message": user_brackets}
 #
 #
-# @router.get("/account/{user}/my_filled_out_brackets")
+# @router.get("/view/account/{user}/my_filled_out_brackets")
 # async def get_account_ranked_brackets(user: int):
 #     user_filled_brackets = f"The brackets the {user} filled out"
 #     return {"message": user_filled_brackets}
