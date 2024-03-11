@@ -4,10 +4,15 @@ First iteration will only be for songs only.
 
 Many comments to explain what code is doing, this web app is for beginners to reference
 """
+from dotenv import load_dotenv
+
+# Load env variables
+load_dotenv()
+
 from fastapi import FastAPI
-from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from routes import index, account, bracket
+
 
 # Create the FastAPI app
 app = FastAPI(docs_url=None, redoc_url=None)

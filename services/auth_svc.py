@@ -8,9 +8,10 @@ import hashlib
 from typing import Optional
 from fastapi import Request
 from fastapi.responses import Response
-from config import SALT_END, SALT_START
+import os
 
-
+SALT_START = os.getenv('SALT_START')
+SALT_END = os.getenv('SALT_END')
 auth_cookie_name = 'bracket_voter_account'
 
 
