@@ -11,19 +11,20 @@ A python web app to create tournaments to decide which song is best, bracket sty
 
 ## Status
 Users are able to:
-* Create accounts, login and logout.
+* Create account, login and logout.
 * Create an 8, 16, 32 or 64 song tournament, and fill out the title and artist for each contestant.
 * View the tournaments that have been created.
+* View your own and others filled out brackets for tournaments.
 * Fill out a bracket for an 8, 16, 32 or 64 song tournament
-  * their own and other users.
-  * Every selection of a match winner is saved as its made.
+  * Your own and other users.
+  * Every selection of a match winner is saved as it is made.
 
 Features being worked on:
-* Viewing own and others filled out bracktes for tournaments.
 * My Account page, to view summary or list of tournaments you created, and brackets you filled out
 
 Known issue:
 * Refreshing page while filling it out resets all choices, possible created new bracket entry. Don't refresh right now.
+* Going back in the middle of filling out a bracket does interesting things.
 
 
 ## Future Plans
