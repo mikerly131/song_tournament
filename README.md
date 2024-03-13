@@ -1,4 +1,4 @@
-# About Bracket Voter Simple
+# About Song Tournament
 A python web app to create tournaments to decide which song is best, bracket style.
 
 ## Built Using
@@ -11,6 +11,7 @@ A python web app to create tournaments to decide which song is best, bracket sty
 
 ## Status
 Website is live: www.songtournament.com
+
 Users are able to:
 * Create account, login and logout.
 * Create an 8, 16, 32 or 64 song tournament, and fill out the title and artist for each contestant.
